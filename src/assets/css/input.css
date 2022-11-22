@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('./fonts.css');
+
+@layer base {
+    ::-webkit-scrollbar {
+      width: 0.25em;
+      height: 0.25em;
+      
+    }
+  
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  
+    ::-webkit-scrollbar-thumb {
+      border: 0.25em solid #337898;
+      border-radius: 4px;
+    }
+  }
+  
