@@ -1,19 +1,37 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import DefaultView from '../views/DefaultView.vue';
+import TradeView from '../views/TradeView.vue';
+import EcoProjectView from '../views/EcoProjectView.vue';
+import EcoMarketView from '../views/EcoMarketView.vue';
+import ApplyScreenView from '../views/ApplyScreenView.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView,
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
+    name: 'DeaultView',
+    component: DefaultView,
+    children: [
+      {
+        path: '',
+        name: 'TradeView',
+        component: TradeView,
+      },
+      {
+        path: '/ecoproject',
+        name: 'EcoProjectView',
+        component: EcoProjectView,
+      },
+      {
+        path: '/ecomarket',
+        name: 'EcoMarketView',
+        component: EcoMarketView,
+      },
+      {
+        path: '/apply',
+        name: 'ApplyScreenView',
+        component: ApplyScreenView,
+      },
+    ],
   },
 ];
 
