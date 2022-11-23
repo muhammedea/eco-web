@@ -2,7 +2,7 @@
   <div class="w-full h-20 shadow-header-bottom-border px-8 flex items-center justify-center">
     <div class="w-full h-full flex gap-12 items-center">
       <div class="">
-        <router-link to="/" class="text-logo text-Primary-Blue font-bold">ecolarium</router-link>
+        <router-link to="/" class="text-logo text-Primary-Blue font-bold select-none focus-visible:outline-none">ecolarium</router-link>
       </div>
       <div class="flex items-center justify-between h-full w-full">
         <div class="flex h-full">
