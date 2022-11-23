@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import DefaultView from '../views/DefaultView.vue';
 import TradeView from '../views/TradeView.vue';
 import EcoProjectView from '../views/EcoProjectView.vue';
@@ -36,7 +36,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes,
 });
 
