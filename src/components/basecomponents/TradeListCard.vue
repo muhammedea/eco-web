@@ -31,7 +31,7 @@
       <span
         @click="isFavorite = !isFavorite"
         @keydown="isFavorite"
-        class="cursor-pointer hover:text-Acsen-Yellow transition-all duration-200 h-5"
+        class="cursor-pointer hover:text-Acsen-Yellow transition-all duration-200 flex items-center justify-center"
         :class="isFavorite ? 'text-Acsen-Yellow' : 'text-[#e6e7eb]'"
       >
         <i class="yi yi-star-filled" style="font-size: 16px"></i>

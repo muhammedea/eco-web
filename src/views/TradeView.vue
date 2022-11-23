@@ -1,8 +1,8 @@
 <template>
   <div class="px-6 pt-8 flex flex-col w-full">
     <TradeViewHeader />
-    <div class="flex w-full lg:flex-row flex-col border-b pb-6 ">
-      <div class="w-full lg:w-5/12 flex justify-between pr-12 border-r">
+    <div class="flex w-full lg:flex-row flex-col border-b">
+      <div class="w-full lg:w-5/12 flex justify-between pr-6 border-r pb-6">
         <div class="w-n-gap-3-50">
           <BuyAndSell />
         </div>
