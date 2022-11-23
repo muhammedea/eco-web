@@ -1,6 +1,6 @@
 <template>
   <div class="w-full py-8 pr-6">
-    <y-tabs v-model="test" class="overflow-scroll scrollbar-hide w-full">
+    <y-tabs v-model="tabs" class="overflow-scroll scrollbar-hide w-full">
       <y-tab title="Favorites">
         <div class="flex flex-col w-full">
           <div class="py-2 px-4 w-full">
@@ -28,5 +28,5 @@
 import { ref } from 'vue';
 import TradeListCard from '../basecomponents/TradeListCard.vue';
 
-const test = ref(['0']);
+const tabs = ref(['0']);
 </script>
