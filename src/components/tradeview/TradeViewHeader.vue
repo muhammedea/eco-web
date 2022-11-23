@@ -3,7 +3,7 @@
     <div class="flex flex-col gap-1">
       <div class="flex items-center gap-2.5 text-base-leading-5 font-semibold">
         <span class="text-Black-and-White-Black">TrueFeedBack</span>
-        <span @click="isFavorite = !isFavorite" @keydown="isFavorite" class="cursor-pointer hover:text-Acsen-Yellow transition-all duration-200" :class="isFavorite ? 'text-Acsen-Yellow' : 'text-[#e6e7eb]'">
+        <span @click="isFavorite = !isFavorite" @keydown="isFavorite" class="cursor-pointer hover:text-Acsen-Yellow transition-all duration-200 flex items-center justify-center" :class="isFavorite ? 'text-Acsen-Yellow' : 'text-[#e6e7eb]'">
           <i class="yi yi-star-filled" style="font-size: 16px"></i>
         </span>
       </div>
