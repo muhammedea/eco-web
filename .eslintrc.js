@@ -30,5 +30,6 @@ module.exports = {
       },
     ],
     'max-len': ['error', { code: 600 }],
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
   },
 };
