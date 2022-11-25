@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: ['./src/**/*.{html,js,vue}'],
   theme: {
@@ -7,6 +9,7 @@ module.exports = {
         25: '100px',
         29: '116px',
         63: '252px',
+        'n-gap-3-33': 'calc(33.333333% - 12px)',
         'n-gap-5-33': 'calc(33.333333% - 20px)',
         'n-gap-10-33': 'calc(33.333333% - 40px)',
         'n-gap-5-25': 'calc(25.000000% - 20px)',
@@ -24,7 +27,14 @@ module.exports = {
         SIDE_NAV: 'calc(100% - 80px)',
       },
       screens: {
-        navBreak: '920px',
+        xs: '475px',
+        ...defaultTheme.screens,
+        sm: '639.98px',
+        md: '767.98px',
+        navBreak: '880px',
+        lg: '1023.98px',
+        xl: '1279.98px',
+        '2xl': '1535.98px',
       },
       maxWidth: {
         base: '1120px',
@@ -95,7 +105,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require('tailwind-scrollbar-hide'),
-  ],
+  plugins: [require('tailwind-scrollbar-hide'), require('@tailwindcss/line-clamp')],
 };
