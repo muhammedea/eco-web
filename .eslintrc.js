@@ -29,7 +29,13 @@ module.exports = {
         ignores: ['default'],
       },
     ],
-    'max-len': ['error', { code: 600 }],
+    'max-len': [
+      'error',
+      {
+        code: 600,
+      },
+    ],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'object-curly-newline': ['error', { consistent: true }],
   },
 };
