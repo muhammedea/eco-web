@@ -24,6 +24,7 @@ module.exports = {
       },
       height: {
         25: '100px',
+        27: '108px',
         SIDE_NAV: 'calc(100% - 80px)',
       },
       screens: {
