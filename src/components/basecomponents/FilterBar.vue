@@ -16,7 +16,7 @@
       </button>
     </div>
     <div v-if="ecoProjectFilters" class="w-full flex flex-col gap-4">
-      <y-accordion title="Max supply" :hr="false" collapse icon="yi yi-chevron-right">
+      <y-accordion title="Max supply" :hr="false" icon="yi yi-chevron-right">
         <div class="flex items-center gap-1 mt-3">
           <y-radio
             id="maxSupply-1"
@@ -58,7 +58,7 @@
         <y-input class="mt-3 w-full" type="number" placeholder="Minimum supply"></y-input>
         <y-input class="mt-3 w-full" type="number" placeholder="Maximum supply"></y-input>
       </y-accordion>
-      <y-accordion title="Market Cap" :hr="false" collapse icon="yi yi-chevron-right">
+      <y-accordion title="Market Cap" :hr="false" icon="yi yi-chevron-right">
         <div class="flex items-center gap-1 mt-3">
           <y-radio
             id="marketCap-1"
@@ -256,7 +256,7 @@
       </y-accordion>
     </div>
     <div v-else class="w-full flex flex-col gap-4">
-      <y-accordion title="Collection" :hr="false" collapse icon="yi yi-chevron-right">
+      <y-accordion title="Collection" :hr="false" icon="yi yi-chevron-right">
         <div class="flex flex-col gap-3 mt-3">
           <y-checkbox v-for="i in 6" :key="i" :label="'Collection ' + i" v-model="checkbox"></y-checkbox>
           <button class="text-sm font-bold text-Black-and-White-Black flex gap-1 pl-6 items-center">
@@ -265,7 +265,7 @@
           </button>
         </div>
       </y-accordion>
-      <y-accordion title="Artwork Type" :hr="false" collapse icon="yi yi-chevron-right">
+      <y-accordion title="Artwork Type" :hr="false" icon="yi yi-chevron-right">
         <div class="flex flex-col gap-3 mt-3">
           <y-checkbox v-for="i in 6" :key="i" :label="'Artwork ' + i" v-model="checkbox"></y-checkbox>
           <button class="text-sm font-bold text-Black-and-White-Black flex gap-1 pl-6 items-center">
@@ -371,6 +371,7 @@ function resetAllFilters() {
   marketCapPickedVal.value = null;
   circulatingSupplyPickedVal.value = null;
   idoTakeAmountPickedVal.value = null;
+  checkbox.value = null;
   idoTakeSoldPickedVal.value = null;
 }
 </script>

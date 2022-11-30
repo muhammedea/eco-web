@@ -5,19 +5,19 @@
       :class="
         filterSideBarOpen
           ? 'w-full fixed top-0 left-0 z-10 bg-white px-6 py-8 max-h-screen'
-          : 'w-0 lg:w-full max-w-[345px] max-h-[calc(100vh-80px)]'
+          : 'w-0 lg:w-full max-w-[345px] max-h-[calc(100vh-80px)] sticky left-0 top-0'
       "
     >
       <FilterBar @closeSideBar="openFilterSideBar" ecoProjectFilters />
     </div>
-    <div class="w-full lg:w-[calc(100%-345px)] h-screen border-l">
+    <div class="w-full lg:w-[calc(100%-345px)] lg:border-l">
       <EcoProjectList @openFilters="openFilterSideBar" />
     </div>
   </div>
 </template>
 <script setup>
 import { ref } from 'vue';
-import FilterBar from '@/components/ecoproject/FilterBar.vue';
+import FilterBar from '@/components/basecomponents/FilterBar.vue';
 import EcoProjectList from '@/components/ecoproject/EcoProjectList.vue';
 
 const filterSideBarOpen = ref(false);
