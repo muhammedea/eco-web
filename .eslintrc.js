@@ -37,5 +37,12 @@ module.exports = {
     ],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'object-curly-newline': ['error', { consistent: true }],
+    'vuejs-accessibility/anchor-has-content': [
+      'error',
+      {
+        components: ['Anchor'],
+        accessibleChildren: ['button'],
+      },
+    ],
   },
 };
