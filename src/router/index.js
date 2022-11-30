@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import DefaultView from '../views/DefaultView.vue';
 import TradeView from '../views/TradeView.vue';
 import EcoProjectView from '../views/EcoProjectView.vue';
+import EcoProjectDetailView from '../views/EcoProjectDetailView.vue';
 import EcoMarketView from '../views/EcoMarketView.vue';
 import ApplyScreenView from '../views/ApplyScreenView.vue';
 
@@ -20,6 +21,11 @@ const routes = [
         path: '/ecoproject',
         name: 'EcoProjectView',
         component: EcoProjectView,
+      },
+      {
+        path: '/ecoproject/detail',
+        name: 'EcoProjectDetailView',
+        component: EcoProjectDetailView,
       },
       {
         path: '/ecomarket',
