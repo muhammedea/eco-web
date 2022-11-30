@@ -1,7 +1,9 @@
 <template>
   <RouterView></RouterView>
 </template>
-<script setup>
-
-</script>
-<style></style>
+<script setup></script>
+<style>
+html {
+  scroll-behavior: smooth;
+}
+</style>
