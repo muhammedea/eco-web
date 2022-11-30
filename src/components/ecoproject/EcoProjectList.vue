@@ -86,8 +86,11 @@
     <div class="flex gap-y-10 flex-wrap justify-between w-full">
       <EcoProjectCard v-for="i in 9" :key="i" />
     </div>
-    <div class="w-full flex items-center justify-center">
-      <y-pagination :total="90" :perPage="9" :pageRange="10" :page="1"></y-pagination>
+    <div class="w-full hidden md:flex items-center justify-center">
+      <y-pagination :total="90" :perPage="9" :pageRange="4" :page="1"></y-pagination>
+    </div>
+    <div class="w-full flex md:hidden items-center justify-center">
+      <y-pagination simple :total="90" :perPage="9" :pageRange="4" :page="1"></y-pagination>
     </div>
   </div>
 </template>
