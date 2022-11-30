@@ -5,7 +5,7 @@
     :class="
       heroCard
         ? 'border rounded-lg w-[333px] flex-1'
-        : 'w-full xs:w-n-gap-3-50 md:w-n-gap-3-33 lg:w-n-gap-3-50 xl:w-n-gap-3-33 2xl:w-n-gap-4-25'
+        : 'w-full xs:w-n-gap-3-50 md:w-n-gap-3-33 lg:w-n-gap-3-50 xl:w-n-gap-3-33'
     "
   >
     <div class="flex flex-col gap-4">
@@ -36,7 +36,7 @@
             Vladsiv
           </button>
         </div>
-        <div v-if="heroCard" class="flex flex-col w-full">
+        <div v-if="!heroCard" class="flex flex-col w-full">
           <div class="w-full flex items-center justify-between text-Grayscale-Grey-3 text-base-leading-5">
             <span>Price</span>
             <span>Offer</span>
