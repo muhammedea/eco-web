@@ -52,19 +52,26 @@
           <!-- we can change dropdown panel width  -->
           <y-dropdown left :classes="['!w-[55px]']">
             <template #activator="{ open }">
-              <button @click.stop="open" class="flex items-center gap-1">
-                EN <i class="yi yi-chevron-down"></i>
-              </button>
+              <button @click.stop="open" class="flex items-center gap-1">EN <i class="yi yi-chevron-down"></i></button>
             </template>
             <y-dropdown-item @click="$emit('lowest', group)">TR</y-dropdown-item>
             <y-dropdown-item @click="$emit('relevance', group)">IT</y-dropdown-item>
           </y-dropdown>
           <div class="hidden navBreak:block stroke w-[1px] h-8 bg-Primary-Blue opacity-20"></div>
-          <a
+          <button
+            @click="connectWallet = !connectWallet"
+            v-if="!connectWallet"
             class="xs:w-fit w-full flex items-center justify-center px-4 py-2.5 border-Primary-Blue border text-Primary-Blue text-sm rounded-md font-semibold hover:bg-Primary-Blue hover:text-white transition-all cursor-pointer"
           >
             Connect Wallet
-          </a>
+          </button>
+          <button
+            v-else
+            @click="connectWallet = !connectWallet"
+            class="py-1 px-2 max-w-fit font-bold text-Grayscale-Grey-2 text-sm leading-6 bottom-4 right-4 rounded-lg outline outline-Grayscale-Grey-5 -outline-offset-1 bg-Tint-Brand-Primary"
+          >
+            1BoatSLRHtKNngkdXEeobR76b53LETtpyT
+          </button>
         </div>
       </div>
     </div>
@@ -74,6 +81,7 @@
 import { ref } from 'vue';
 
 const sideNavOpen = ref(false);
+const connectWallet = ref(false);
 function openResponsiveNav() {
   sideNavOpen.value = !sideNavOpen.value;
   if (document.body.classList.value === 'overflow-hidden') document.body.classList.remove('overflow-hidden');
