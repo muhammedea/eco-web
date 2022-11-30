@@ -1,5 +1,5 @@
 <template>
-  <button @click="router.push('/ecoproject/detail')" class="w-full xs:w-n-gap-3-50 md:w-n-gap-3-33 lg:w-n-gap-3-50 xl:w-n-gap-3-33 2xl:w-n-gap-4-25 h-auto cursor-pointer">
+  <button @click="router.push('/ecoproject/detail')" class="w-full xs:w-n-gap-3-50 md:w-n-gap-3-33 lg:w-n-gap-3-50 xl:w-n-gap-3-33 h-auto cursor-pointer">
     <div class="flex flex-col gap-2">
       <div class="w-full overflow-hidden rounded-lg h-[200px]">
         <img class="w-full h-full object-cover" src="@/assets/images/exp-photo.jpg" alt="ecoproject-photo" />
