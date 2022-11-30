@@ -8,7 +8,9 @@ module.exports = {
       width: {
         25: '100px',
         29: '116px',
+        62: '248px',
         63: '252px',
+        'n-gap-2-33': 'calc(33.333333% - 8px)',
         'n-gap-3-33': 'calc(33.333333% - 12px)',
         'n-gap-5-33': 'calc(33.333333% - 20px)',
         'n-gap-10-33': 'calc(33.333333% - 40px)',
@@ -25,7 +27,7 @@ module.exports = {
       height: {
         25: '100px',
         27: '108px',
-        SIDE_NAV: 'calc(100% - 80px)',
+        full_screen: 'calc(100vh - 80px)',
       },
       screens: {
         xs: '475px',
@@ -40,6 +42,9 @@ module.exports = {
       maxWidth: {
         base: '1120px',
       },
+      minHeight: {
+        full_screen: 'calc(100vh - 80px)',
+      },
       colors: {
         'Primary-Blue': '#337898',
         'Secondary-Light-Blue': '#559F62',
@@ -48,7 +53,7 @@ module.exports = {
         'Black-and-White-Black': 'rgba(8, 14, 56, 1)',
         'Black-and-White-Black-Opacity-90': 'rgba(8, 14, 56, .9)',
         'Black-and-White-Black-Opacity-50': 'rgba(8, 14, 56, .5)',
-        'Grayscale-Grey-1': 'rgba(57, 62, 96, 1)',
+        'Grayscale-Grey-1': '#82828B',
         'Grayscale-Grey-2': 'rgba(107, 110, 136, 1)',
         'Grayscale-Grey-3': 'rgba(156, 159, 175, 1)',
         'Grayscale-Grey-4': 'rgba(230, 231, 235, 1)',
@@ -68,6 +73,7 @@ module.exports = {
         'Dark-Slider-From': 'rgba(255, 230, 169, 1)',
         'Dark-Slider-to': 'rgba(32, 40, 105, 1)',
         'Dark-Mode-Border': 'rgba(45, 52, 106, 1)',
+        'Overlay-Black': 'rgba(0, 0, 0, 0.7)',
       },
       fontSize: {
         logo: ['32px', '42px'],
