@@ -1,8 +1,8 @@
 <template>
-  <div class="w-full overflow-x-scroll py-8 scrollbar-hide">
-    <div class=" flex gap-5 px-6 w-full min-w-max">
-    <EcoMarketCard hero-card v-for="i in 10" :key="i" />
-  </div>
+  <div class="w-full overflow-x-scroll px-6 py-8 scrollbar-hide">
+    <div class="flex gap-5 w-full min-w-max">
+      <EcoMarketCard hero-card v-for="i in 10" :key="i" />
+    </div>
   </div>
   <!-- <Carousel :itemsToScroll="4" v-model="currentSlide" :breakpoints="breakpoints" :settings="settings">
     <slide >

@@ -5,7 +5,7 @@
         id="suggestion-all"
         v-model="suggestionChipPickedVal"
         inputValue="suggestion-all"
-        class="filter-side-bar-chip-radio-button rounded-full px-2 xs:px-3 xs:py-2.5 py-1 text-sm font-semibold border"
+        class="filter-side-bar-chip-radio-button rounded-full px-2 xs:px-3 xs:py-2.5 py-1 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
         :class="
           suggestionChipPickedVal === 'suggestion-all'
             ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -17,7 +17,7 @@
         id="suggestion-new"
         v-model="suggestionChipPickedVal"
         inputValue="suggestion-new"
-        class="filter-side-bar-chip-radio-button rounded-full px-2 xs:px-3 xs:py-2.5 py-1 text-sm font-semibold border"
+        class="filter-side-bar-chip-radio-button rounded-full px-2 xs:px-3 xs:py-2.5 py-1 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
         :class="
           suggestionChipPickedVal === 'suggestion-new'
             ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -29,7 +29,7 @@
         id="suggestion-priority"
         v-model="suggestionChipPickedVal"
         inputValue="suggestion-priority"
-        class="filter-side-bar-chip-radio-button rounded-full px-2 xs:px-3 xs:py-2.5 py-1 text-sm font-semibold border"
+        class="filter-side-bar-chip-radio-button rounded-full px-2 xs:px-3 xs:py-2.5 py-1 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
         :class="
           suggestionChipPickedVal === 'suggestion-priority'
             ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -41,7 +41,7 @@
         id="suggestion-recommended"
         v-model="suggestionChipPickedVal"
         inputValue="suggestion-recommended"
-        class="filter-side-bar-chip-radio-button rounded-full px-2 xs:px-3 xs:py-2.5 py-1 text-sm font-semibold border"
+        class="filter-side-bar-chip-radio-button rounded-full px-2 xs:px-3 xs:py-2.5 py-1 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
         :class="
           suggestionChipPickedVal === 'suggestion-recommended'
             ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'

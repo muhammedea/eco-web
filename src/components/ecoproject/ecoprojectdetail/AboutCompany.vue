@@ -1,12 +1,15 @@
 <template>
-  <div class="flex flex-col gap-10 w-[333px] sticky top-6 max-h-screen pb-8 overflow-y-scroll scrollbar-hide">
+  <div
+    class="flex flex-col gap-10 w-full xs:w-[333px] sticky top-24 max-h-screen pb-8 overflow-y-scroll scrollbar-hide"
+  >
     <div class="flex flex-col gap-4">
-      <div class="flex gap-3 items-center flex-wrap">
-        <div class="w-12 h-12 rounded-full overflow-hidden outline -outline-offset-1 outline-Grayscale-Grey-5">
+      <div class="flex gap-3 items-center">
+        <div class="w-12 h-12 flex-shrink-0 rounded-full overflow-hidden outline -outline-offset-1 outline-Grayscale-Grey-5">
           <img src="@/assets/images/exp-photo-2.png" alt="brand-logo" class="h-full rounded-full object-cover" />
         </div>
         <div class="text-base-leading-5 flex flex-col text-Black-and-White-Black font-bold">
-          Bluth Company <span class="font-normal text-Grayscale-Grey-2">Green company since 2010</span>
+          <span class="line-clamp-2">Bluth Company</span>
+          <span class="font-normal text-Grayscale-Grey-2">Green company since 2010</span>
         </div>
       </div>
       <p class="text-Grayscale-Grey-2 text-base">
@@ -52,74 +55,97 @@
       </div>
     </div>
     <div class="flex flex-col gap-4">
-      <div class="w-full p-4 border rounded-md">
-        <div class="w-full flex flex-col gap-2">
-          <div class="flex items-end w-full">
-            <span class="text-xl leading-6 text-Black-and-White-Black">230,000,000.00</span>
-            <span class="text-sm text-Grayscale-Grey-3 ml-1">of 420,000,000.00</span>
-            <span class="text-xl leading-6 text-Black-and-White-Black ml-auto">%{{ progress }}</span>
-          </div>
-          <div class="flex flex-col">
-            <y-progress-bar :progress="progress" :height="8" color="#4ED8F7"></y-progress-bar>
-            <div class="flex items-center justify-between text-sm text-Grayscale-Grey-3 leading-6">
-              <span>790 investors</span>
-              <span>1 month left</span>
+      <div class="flex flex-col gap-4">
+        <span class="text-Black-and-White-Black text-base-leading-5 font-bold">My Stakes</span>
+        <div class="w-full p-4 border rounded-md">
+          <div class="w-full flex flex-col gap-2">
+            <div class="flex items-end justify-between w-full">
+              <span class="text-xl leading-6 text-Black-and-White-Black">100 USDT</span>
+              <span class="text-sm text-Grayscale-Grey-3 leading-6">1 month left</span>
+            </div>
+            <div class="flex flex-col gap-1">
+              <y-progress-bar :progress="progress2" :height="8" color="#FFC841"></y-progress-bar>
+              <div class="flex items-center text-sm text-Grayscale-Grey-3 leading-6 gap-2">
+                <span>Unlock Date:</span>
+                <span class="text-sm leading-6 text-Black-and-White-Black">02.02.2023</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="w-full p-4 border rounded-md">
-        <div class="w-full flex flex-col gap-2">
-          <div class="flex">
-            <div class="w-1/2 flex flex-col">
-              <div class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1">
-                <span>Max supply</span>
-                <y-tooltip right bottom>
-                  <template #tooltip>
-                    <p>Information</p>
-                  </template>
-                  <i class="yi yi-info" style="font-size: 12px"></i>
-                </y-tooltip>
+      <div class="flex flex-col gap-4">
+        <span class="text-Black-and-White-Black text-base-leading-5 font-bold">Financial Details</span>
+        <div class="w-full p-4 border rounded-md">
+          <div class="w-full flex flex-col gap-2">
+            <div class="flex items-end w-full">
+              <div class="flex flex-col xs:flex-row">
+                <span class="text-xl leading-6 text-Black-and-White-Black">230,000,000.00</span>
+                <span class="text-sm text-Grayscale-Grey-3 ml-1">of 420,000,000.00</span>
               </div>
-              <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">420,000,000.00</p>
+              <span class="text-xl leading-6 text-Black-and-White-Black ml-auto">%{{ progress }}</span>
             </div>
-            <div class="w-1/2 flex flex-col">
-              <div class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1">
-                <span>Market cap</span>
-                <y-tooltip right bottom>
-                  <template #tooltip>
-                    <p>Information</p>
-                  </template>
-                  <i class="yi yi-info" style="font-size: 12px"></i>
-                </y-tooltip>
+            <div class="flex flex-col">
+              <y-progress-bar :progress="progress" :height="8" color="#4ED8F7"></y-progress-bar>
+              <div class="flex items-center justify-between text-sm text-Grayscale-Grey-3 leading-6">
+                <span>790 investors</span>
+                <span>1 month left</span>
               </div>
-              <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">$2,046,450.82</p>
             </div>
           </div>
-          <div class="flex">
-            <div class="w-1/2 flex flex-col">
-              <div class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1">
-                <span>IDO take amount</span>
-                <y-tooltip right bottom>
-                  <template #tooltip>
-                    <p>Information</p>
-                  </template>
-                  <i class="yi yi-info" style="font-size: 12px"></i>
-                </y-tooltip>
+        </div>
+        <div class="w-full p-4 border rounded-md">
+          <div class="w-full flex flex-col gap-2">
+            <div class="flex">
+              <div class="w-1/2 flex flex-col">
+                <div class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1">
+                  <span>Max supply</span>
+                  <y-tooltip right bottom>
+                    <template #tooltip>
+                      <p>Information</p>
+                    </template>
+                    <i class="yi yi-info" style="font-size: 12px"></i>
+                  </y-tooltip>
+                </div>
+                <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">420,000,000.00</p>
               </div>
-              <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">50,563,533.00</p>
+              <div class="w-1/2 flex flex-col">
+                <div class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1">
+                  <span>Market cap</span>
+                  <y-tooltip right bottom>
+                    <template #tooltip>
+                      <p>Information</p>
+                    </template>
+                    <i class="yi yi-info" style="font-size: 12px"></i>
+                  </y-tooltip>
+                </div>
+                <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">$2,046,450.82</p>
+              </div>
             </div>
-            <div class="w-1/2 flex flex-col">
-              <div class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1">
-                <span>IDO take sold</span>
-                <y-tooltip right bottom>
-                  <template #tooltip>
-                    <p>Information</p>
-                  </template>
-                  <i class="yi yi-info" style="font-size: 12px"></i>
-                </y-tooltip>
+            <div class="flex">
+              <div class="w-1/2 flex flex-col">
+                <div class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1">
+                  <span>IDO take amount</span>
+                  <y-tooltip right bottom>
+                    <template #tooltip>
+                      <p>Information</p>
+                    </template>
+                    <i class="yi yi-info" style="font-size: 12px"></i>
+                  </y-tooltip>
+                </div>
+                <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">50,563,533.00</p>
               </div>
-              <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">₺ 263,896.40</p>
+              <div class="w-1/2 flex flex-col">
+                <div class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1">
+                  <span>IDO take sold</span>
+                  <y-tooltip right bottom>
+                    <template #tooltip>
+                      <p>Information</p>
+                    </template>
+                    <i class="yi yi-info" style="font-size: 12px"></i>
+                  </y-tooltip>
+                </div>
+                <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">₺ 263,896.40</p>
+              </div>
             </div>
           </div>
         </div>
@@ -211,4 +237,5 @@
 import { ref } from 'vue';
 
 const progress = ref(53);
+const progress2 = ref(34);
 </script>

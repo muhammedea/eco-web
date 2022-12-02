@@ -1,15 +1,17 @@
 <template>
   <div class="w-full flex flex-col relative">
     <GoBackBanner whereToGoBack="EcoProject List" />
-    <div class="flex">
-      <div>
+    <div class="flex xl:flex-row flex-col">
+      <div class="w-full overflow-scroll scrollbar-hide xl:overflow-visible xl:w-fit py-6 xl:p-0 xl:border-none border-y">
         <ContentNavigation />
       </div>
-      <div class="w-full lg:w-full px-8 lg:border-x">
-        <AboutProject />
-      </div>
-      <div class="px-6">
-        <AboutCompany />
+      <div class="flex xl:p-0 pt-6 lg:flex-row flex-col">
+        <div class="w-full lg:w-full px-6 lg:px-8 lg:border-x">
+          <AboutProject />
+        </div>
+        <div class="mx-6 border-t lg:border-none mt-6 pt-6 lg:mt-0 lg:pt-0">
+          <AboutCompany />
+        </div>
       </div>
     </div>
   </div>

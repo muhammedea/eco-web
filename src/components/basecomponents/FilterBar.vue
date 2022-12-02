@@ -4,7 +4,7 @@
       <span class="text-2xl font-bold text-Black-and-White-Black">Filters</span>
       <button
         @click="resetAllFilters"
-        class="hidden lg:block text-base underline underline-offset-2 text-Primary-Blue cursor-pointer transition-all duration-150 hover:no-underline hover:text-Acsen-Yellow"
+        class="hidden lg:block text-base underline underline-offset-2 text-Primary-Blue cursor-pointer transition-all duration-200 hover:no-underline hover:text-Acsen-Yellow"
       >
         Reset
       </button>
@@ -22,7 +22,7 @@
             id="maxSupply-1"
             v-model="maxSupplyPickedVal"
             inputValue="100M-300M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               maxSupplyPickedVal === '100M-300M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -34,7 +34,7 @@
             id="maxSupply-2"
             v-model="maxSupplyPickedVal"
             inputValue="300M-500M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               maxSupplyPickedVal === '300M-500M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -46,7 +46,7 @@
             id="maxSupply-3"
             v-model="maxSupplyPickedVal"
             inputValue="<500M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               maxSupplyPickedVal === '<500M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -64,7 +64,7 @@
             id="marketCap-1"
             v-model="marketCapPickedVal"
             inputValue="1M-3M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               marketCapPickedVal === '1M-3M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -76,7 +76,7 @@
             id="marketCap-2"
             v-model="marketCapPickedVal"
             inputValue="3M-5M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               marketCapPickedVal === '3M-5M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -88,7 +88,7 @@
             id="marketCap-3"
             v-model="marketCapPickedVal"
             inputValue="<5M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               marketCapPickedVal === '<5M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -100,7 +100,7 @@
         <y-input prefix class="mt-3 w-full" placeholder="Minimum price">
           <template #prefix>
             <span
-              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black font-bold bg-Grayscale-Grey-5"
+              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black rounded-l-md font-bold bg-Grayscale-Grey-5"
               >$</span
             >
           </template>
@@ -108,7 +108,7 @@
         <y-input prefix class="mt-3 w-full" placeholder="Maximum price">
           <template #prefix>
             <span
-              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black font-bold bg-Grayscale-Grey-5"
+              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black rounded-l-md font-bold bg-Grayscale-Grey-5"
               >$</span
             >
           </template>
@@ -120,7 +120,7 @@
             id="circulatingSupply-1"
             v-model="circulatingSupplyPickedVal"
             inputValue="100M-300M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               circulatingSupplyPickedVal === '100M-300M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -132,7 +132,7 @@
             id="circulatingSupply-2"
             v-model="circulatingSupplyPickedVal"
             inputValue="300M-500M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               circulatingSupplyPickedVal === '300M-500M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -144,7 +144,7 @@
             id="circulatingSupply-3"
             v-model="circulatingSupplyPickedVal"
             inputValue="<500M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               circulatingSupplyPickedVal === '<500M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -162,7 +162,7 @@
             id="idoTakeAmount-1"
             v-model="idoTakeAmountPickedVal"
             inputValue="10M-50M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               idoTakeAmountPickedVal === '10M-50M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -174,7 +174,7 @@
             id="idoTakeAmount-2"
             v-model="idoTakeAmountPickedVal"
             inputValue="50M-100M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               idoTakeAmountPickedVal === '50M-100M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -186,7 +186,7 @@
             id="idoTakeAmount-3"
             v-model="idoTakeAmountPickedVal"
             inputValue="<100M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               idoTakeAmountPickedVal === '<100M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -204,7 +204,7 @@
             id="idoTakeSold-1"
             v-model="idoTakeSoldPickedVal"
             inputValue="1K-3K"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               idoTakeSoldPickedVal === '1K-3K'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -216,7 +216,7 @@
             id="idoTakeSold-2"
             v-model="idoTakeSoldPickedVal"
             inputValue="50M-100M"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               idoTakeSoldPickedVal === '50M-100M'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -228,7 +228,7 @@
             id="idoTakeSold-3"
             v-model="idoTakeSoldPickedVal"
             inputValue="<5K"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               idoTakeSoldPickedVal === '<5K'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -240,7 +240,7 @@
         <y-input prefix class="mt-3 w-full" placeholder="Minimum supply">
           <template #prefix>
             <span
-              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black font-bold bg-Grayscale-Grey-5"
+              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black rounded-l-md font-bold bg-Grayscale-Grey-5"
               >$</span
             >
           </template>
@@ -248,7 +248,7 @@
         <y-input prefix class="mt-3 w-full" placeholder="Maximum supply">
           <template #prefix>
             <span
-              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black font-bold bg-Grayscale-Grey-5"
+              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black rounded-l-md font-bold bg-Grayscale-Grey-5"
               >$</span
             >
           </template>
@@ -280,7 +280,7 @@
             id="priceRange-1"
             v-model="priceRangePickedVal"
             inputValue="0-TGS-1-TGS"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               priceRangePickedVal === '0-TGS-1-TGS'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -292,7 +292,7 @@
             id="priceRange-2"
             v-model="priceRangePickedVal"
             inputValue="1-TGS-2-TGS"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               priceRangePickedVal === '1-TGS-2-TGS'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -304,7 +304,7 @@
             id="priceRange-3"
             v-model="priceRangePickedVal"
             inputValue="<2TGS"
-            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border"
+            class="filter-side-bar-chip-radio-button rounded-full px-3 py-2.5 text-sm font-semibold border cursor-pointer hover:border-Primary-Blue"
             :class="
               priceRangePickedVal === '<2TGS'
                 ? ' bg-Tint-Brand-Secondary border-Tint-Brand-Secondary text-Primary-Blue'
@@ -316,7 +316,7 @@
         <y-input prefix class="mt-3 w-full" placeholder="Minimum price">
           <template #prefix>
             <span
-              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black font-bold bg-Grayscale-Grey-5"
+              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black rounded-l-md font-bold bg-Grayscale-Grey-5"
               >TGS</span
             >
           </template>
@@ -324,7 +324,7 @@
         <y-input prefix class="mt-3 w-full" placeholder="Maximum price">
           <template #prefix>
             <span
-              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black font-bold bg-Grayscale-Grey-5"
+              class="w-11 h-11 flex justify-center items-center text-Black-and-White-Black rounded-l-md font-bold bg-Grayscale-Grey-5"
               >TGS</span
             >
           </template>
@@ -334,12 +334,12 @@
     <div class="block lg:hidden w-full h-px bg-Grayscale-Grey-5 mt-auto"></div>
     <button
       @click="resetAllFilters"
-      class="block lg:hidden text-base underline underline-offset-2 py-1.5 text-Primary-Blue cursor-pointer transition-all duration-150 hover:no-underline hover:text-Acsen-Yellow"
+      class="block lg:hidden text-base underline underline-offset-2 py-1.5 text-Primary-Blue cursor-pointer transition-all duration-200 hover:no-underline hover:text-Acsen-Yellow"
     >
       Reset
     </button>
     <button
-      class="sticky bottom-0 flex justify-center items-center py-1.5 text-base text-white bg-Primary-Blue cursor-pointer transition-all border border-Primary-Blue rounded-md duration-150 hover:text-Primary-Blue hover:bg-transparent"
+      class="sticky bottom-0 flex justify-center items-center py-1.5 text-base text-white bg-Primary-Blue cursor-pointer transition-all border border-Primary-Blue rounded-md duration-200 hover:text-Primary-Blue hover:bg-transparent"
     >
       Accept
     </button>

@@ -36,7 +36,7 @@
             Vladsiv
           </button>
         </div>
-        <div v-if="heroCard" class="flex flex-col w-full">
+        <div v-if="!heroCard" class="flex flex-col w-full">
           <div class="w-full flex items-center justify-between text-Grayscale-Grey-3 text-base-leading-5">
             <span>Price</span>
             <span>Offer</span>

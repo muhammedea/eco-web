@@ -2,11 +2,11 @@
   <div class="px-6 pt-8 flex flex-col w-full">
     <TradeViewHeader />
     <div class="flex w-full lg:flex-row flex-col border-b">
-      <div class="w-full lg:w-5/12 flex justify-between pr-6 border-r pb-6">
-        <div class="w-n-gap-3-50">
+      <div class="w-full lg:w-5/12 flex flex-col sm:flex-row justify-between lg:pr-6 lg:border-r pb-6">
+        <div class="w-full sm:w-n-gap-3-50">
           <BuyAndSell />
         </div>
-        <div class="w-n-gap-3-50">
+        <div class="w-full sm:w-n-gap-3-50">
           <BuyAndSell :isSell="true" />
         </div>
       </div>
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="flex w-full lg:flex-row flex-col">
-      <div class="w-full lg:w-5/12 border-r">
+      <div class="w-full lg:w-5/12 lg:border-r py-8 lg:pr-6">
         <FavoriteTrades />
       </div>
       <div class="w-full lg:w-7/12 flex md:flex-row flex-col">

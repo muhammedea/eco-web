@@ -1,15 +1,26 @@
 <template>
-  <button @click="router.push('/ecoproject/detail')" class="w-full xs:w-n-gap-3-50 md:w-n-gap-3-33 lg:w-n-gap-3-50 xl:w-n-gap-3-33 h-auto cursor-pointer">
+  <button
+    @click="router.push('/ecoproject/detail')"
+    class="w-full xs:w-n-gap-3-50 md:w-n-gap-3-33 lg:w-n-gap-3-50 xl:w-n-gap-3-33 2xl:w-n-gap-4-25 h-auto cursor-pointer ecoproject-card"
+  >
     <div class="flex flex-col gap-2">
       <div class="w-full overflow-hidden rounded-lg h-[200px]">
-        <img class="w-full h-full object-cover" src="@/assets/images/exp-photo.jpg" alt="ecoproject-photo" />
+        <img
+          class="w-full h-full object-cover ecoproject-image"
+          src="@/assets/images/exp-photo.jpg"
+          alt="ecoproject-photo"
+        />
       </div>
       <div class="flex flex-col gap-1.5">
         <div class="flex gap-2 items-center">
-          <div class="w-8 h-8 overflow-hidden p-1 rounded-full border">
+          <div class="w-8 h-8 overflow-hidden p-1 rounded-full border flex-shrink-0">
             <img class="w-full h-full object-contain" src="@/assets/images/exp-logo.jpg" alt="ecoproject-photo" />
           </div>
-          <p class="text-base-leading-5 lg:text-lg leading-5 text-Black-and-White-Black font-semibold">GREEN FUEL Technologies</p>
+          <p
+            class="text-left text-base-leading-5 lg:text-lg leading-5 text-Black-and-White-Black font-semibold hover:text-Acsen-Yellow relative transition-all duration-200 line-clamp-2 ecoproject-name"
+          >
+            GREEN FUEL Technologies
+          </p>
         </div>
         <div class="flex flex-col gap-2">
           <div class="flex flex-col">
@@ -92,5 +103,27 @@ import router from '@/router';
   background-image: linear-gradient(90deg, #dedede, #dedede 75%, transparent 75%, transparent 100%);
   background-size: 8px 1px;
   border: none;
+}
+.ecoproject-card:hover .ecoproject-image {
+  transition: all;
+  transition-duration: 400ms;
+}
+.ecoproject-card:hover .ecoproject-name {
+  color: #337898;
+}
+.ecoproject-name::after {
+  content:'';
+  background-color: #F9B20C;
+  position: absolute;
+  width: 0%;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 4px;
+  transition: all;
+  transition-duration: 500ms;
+}
+.ecoproject-card:hover .ecoproject-name::after {
+  width: 50%;
 }
 </style>

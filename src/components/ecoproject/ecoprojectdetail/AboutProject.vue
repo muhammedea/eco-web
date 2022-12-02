@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-10">
+  <div class="flex flex-col gap-10 pb-8">
     <div id="about-project" class="flex flex-col gap-5 text-justify">
       <div class="flex flex-col gap-1">
         <h1 class="text-Black-and-White-Black text-logo font-bold">About the Bluth project</h1>
@@ -8,15 +8,22 @@
           ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
         </p>
       </div>
-      <div class="flex flex-wrap">
-        <div class="w-3/5 h-64">
+      <div class="flex flex-wrap md:flex-row flex-col md:gap-0 gap-6">
+        <div class="md:w-3/5 w-full h-64 relative">
           <img
             src="@/assets/images/exp-photo.jpg"
             class="w-full h-full object-cover object-center"
             alt="project-photo-1"
           />
+          <button class="w-full h-full absolute bg-Overlay-Black flex justify-center items-center top-0 left-0">
+            <span
+              class="w-14 h-14 animate-pulse !duration-500 rounded-full border-4 border-white text-white text-3xl flex items-center justify-center"
+            >
+              <i class="yi yi-play"></i>
+            </span>
+          </button>
         </div>
-        <div class="w-2/5 flex flex-col gap-6 pl-5">
+        <div class="md:w-2/5 xs:w-3/5 w-full flex flex-col gap-6 md:pl-5 text-left">
           <div class="flex flex-col gap-2">
             <div class="flex">
               <div class="w-1/2 flex flex-col">
@@ -195,7 +202,7 @@
         </p>
       </div>
       <div class="w-full">
-        <y-simple-table ariaDesc="denene">
+        <y-simple-table ariaDesc="Financial tables" class="border rounded-lg">
           <template #thead>
             <tr>
               <th>Name</th>
@@ -273,6 +280,7 @@
 </template>
 <script setup>
 import TeamCard from '@/components/ecoproject/ecoprojectdetail/TeamCard.vue';
+// eslint-disable-next-line
 import { onClickOutside } from '@vueuse/core';
 import { ref } from 'vue';
 
