@@ -2,46 +2,63 @@
   <y-card :class="cardClass">
     <div class="flex flex-wrap flex-1">
       <div class="flex-1">
-        <h1 class="text-Black-and-White-Black w-full subtitle-4">{{ stake.project_name }}</h1>
-        <p class="caption text-Grayscale-Grey-3 w-full">
-          {{ stake.description }}
+        <h1 class="text-Black-and-White-Black w-full text-lg font-semibold">{{ stake.project_name }}</h1>
+        <p class="caption text-Primary-Blue text-2xl w-full">
+          <span class="text-Grayscale-Grey-3 text-base">Boost: </span>{{ stake.boost }}
         </p>
       </div>
-      <div class="flex items-center gap-2">
+      <div v-if="true" class="flex items-center h-7 gap-2">
         <button
           type="button"
           @click="openRepeatModal"
           class="px-3 py-1 text-white bg-Color-Code-Green rounded-lg text-xs"
         >
-          Uzat
+          Restake
         </button>
         <button @click="openFinishModal" class="px-3 py-1 text-white bg-Color-Code-Red rounded-lg text-xs">
-          Bitir
+          Exit
+        </button>
+      </div>
+      <div v-else class="flex items-center gap-2 h-7">
+        <button
+          type="button"
+          @click="openRepeatModal"
+          class="px-3 py-1 text-white bg-Color-Code-Green rounded-lg text-xs"
+        >
+          Extend
         </button>
       </div>
     </div>
     <div class="flex w-full justify-between mb-2">
       <div class="flex gap-1 items-end">
-        <h1 class="text-Black-and-White-Black caption">Stake Amount:</h1>
+        <h1 class="text-Black-and-White-Black caption">Amount:</h1>
         <p class="text-Black-and-White-Black text-base-leading-5 caption">
           {{ stake.amount }}
         </p>
       </div>
       <div class="flex gap-1 items-end">
-        <h1 class="text-Black-and-White-Black caption">Estimated Income:</h1>
-        <p class="text-Black-and-White-Black text-base-leading-5 animate-pulse caption">{{ stake.income }}</p>
+        <h1 class="text-Black-and-White-Black caption">Current Reward:</h1>
+        <p class="text-Black-and-White-Black text-base-leading-5 animate-pulse caption">{{ stake.reward }}</p>
       </div>
     </div>
     <div class="flex w-full justify-between mb-2">
-      <div class="flex gap-1">
-        <h1 class="text-Black-and-White-Black caption">Start Date:</h1>
-        <p class="text-Grayscale-Grey-3 caption">
-          {{ stake.start_date }}
-        </p>
+      <div class="flex flex-col">
+        <p class="text-Grayscale-Grey-3 caption">3 months lock</p>
+        <div class="flex gap-1">
+          <h1 class="text-Black-and-White-Black caption">Stake Date:</h1>
+          <p class="text-Grayscale-Grey-3 caption">
+            {{ stake.stake_date }}
+          </p>
+        </div>
       </div>
-      <div class="flex gap-1">
-        <h1 class="text-Black-and-White-Black caption">End Date:</h1>
-        <p class="text-Grayscale-Grey-3 caption">{{ stake.end_date }}</p>
+      <div class="flex flex-col">
+        <p class="text-Grayscale-Grey-3 caption ml-auto">1 month left</p>
+        <div class="flex gap-1">
+          <h1 class="text-Black-and-White-Black caption">Due Date:</h1>
+          <p class="text-Grayscale-Grey-3 caption">
+            {{ stake.due_date }}
+          </p>
+        </div>
       </div>
     </div>
     <div class="absolute bottom-0 -inset-x-1 h-2">
@@ -75,8 +92,11 @@ const cardClass = computed(() => [
   'overflow-hidden',
 ]);
 
-function hello(e) {
-  console.log('hello onayladı modal kapandı', e);
+function acceptRestake(e) {
+  console.log('restake accepted', e);
+}
+function exitStake(e) {
+  console.log('exited stake', e);
 }
 
 function openRepeatModal() {
@@ -89,7 +109,7 @@ function openRepeatModal() {
       projectName: props.stake.project_name,
     },
     emits: {
-      confirm: hello,
+      confirm: acceptRestake,
     },
   });
 }
@@ -103,7 +123,7 @@ function openFinishModal() {
         text: 'Quit',
         color: '!bg-RED hover:!bg-RED-2',
         handler: async () => {
-          hello();
+          exitStake();
         },
       },
     ],

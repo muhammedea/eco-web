@@ -37,14 +37,14 @@
           <router-link
             :to="{ name: 'EcoProjectView' }"
             class="w-fit text-base-leading-5 text-Black-and-White-Black-Opacity-50 flex justify-center items-center px-6 relative hover:text-Black-and-White-Black transition-all"
-            exact-active-class="!text-Black-and-White-Black after:bg-Primary-Blue after:navBreak:h-1 after:h-full after:block after:navBreak:rounded-t-lg after:rounded-r-lg after:navBreak:w-full after:w-1 after:left-0 after:bottom-0 after:absolute"
+            :class="$route.path.includes('ecoproject') ?'!text-Black-and-White-Black after:bg-Primary-Blue after:navBreak:h-1 after:h-full after:block after:navBreak:rounded-t-lg after:rounded-r-lg after:navBreak:w-full after:w-1 after:left-0 after:bottom-0 after:absolute':''"
           >
             EcoProject
           </router-link>
           <router-link
             :to="{ name: 'EcoMarketView' }"
             class="w-fit text-base-leading-5 text-Black-and-White-Black-Opacity-50 flex justify-center items-center px-6 relative hover:text-Black-and-White-Black transition-all"
-            exact-active-class="!text-Black-and-White-Black after:bg-Primary-Blue after:navBreak:h-1 after:h-full after:block after:navBreak:rounded-t-lg after:rounded-r-lg after:navBreak:w-full after:w-1 after:left-0 after:bottom-0 after:absolute"
+            :class="$route.path.includes('ecomarket') ?'!text-Black-and-White-Black after:bg-Primary-Blue after:navBreak:h-1 after:h-full after:block after:navBreak:rounded-t-lg after:rounded-r-lg after:navBreak:w-full after:w-1 after:left-0 after:bottom-0 after:absolute':''"
           >
             EcoMarket
           </router-link>

@@ -57,21 +57,7 @@
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-4">
         <span class="text-Black-and-White-Black text-base-leading-5 font-bold">My Stakes</span>
-        <div class="w-full p-4 border rounded-md">
-          <div class="w-full flex flex-col gap-2">
-            <div class="flex items-end justify-between w-full">
-              <span class="text-xl leading-6 text-Black-and-White-Black">100 USDT</span>
-              <span class="text-sm text-Grayscale-Grey-3 leading-6">1 month left</span>
-            </div>
-            <div class="flex flex-col gap-1">
-              <y-progress-bar :progress="progress2" :height="8" color="#FFC841"></y-progress-bar>
-              <div class="flex items-center text-sm text-Grayscale-Grey-3 leading-6 gap-2">
-                <span>Unlock Date:</span>
-                <span class="text-sm leading-6 text-Black-and-White-Black">02.02.2023</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <EcoProjectStakeCard :stake-progress="55" v-for="i in 3" :key="i"/>
       </div>
       <div class="flex flex-col gap-4">
         <span class="text-Black-and-White-Black text-base-leading-5 font-bold">Financial Details</span>
@@ -235,7 +221,8 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import EcoProjectStakeCard from './EcoProjectStakeCard.vue';
 
 const progress = ref(53);
-const progress2 = ref(34);
+
 </script>

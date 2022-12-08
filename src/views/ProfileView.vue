@@ -43,10 +43,11 @@ const stake = ref({
   project_name: 'Project Name',
   description: 'Description(Optional)',
   email: 2,
-  start_date: '20.12.2022',
-  end_date: '20.02.2023',
-  amount: '100 USDT',
-  income: '114 USDT',
+  stake_date: '20.12.2022',
+  due_date: '20.02.2023',
+  amount: '1000 ECO_ORANGE_1',
+  reward: '50 ECO_ORANGE_1',
+  boost: '1.5X',
 });
 // const filterSideBarOpen = ref(false);
 
