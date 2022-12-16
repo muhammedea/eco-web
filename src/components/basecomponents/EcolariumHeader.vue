@@ -67,8 +67,14 @@
           </y-dropdown>
           <div v-if="false" class="hidden navBreak:block stroke w-[1px] h-8 bg-Primary-Blue opacity-20"></div>
           <button
+            v-if="web3Store.isLoading"
+            class="xs:w-fit w-full flex items-center justify-center px-4 py-2.5 border-Primary-Blue border text-Primary-Blue text-sm rounded-md font-semibold hover:bg-Primary-Blue hover:text-white transition-all duration-200 cursor-pointer"
+          >
+            Loading...
+          </button>
+          <button
             @click="connectWallet"
-            v-if="!connectWalletController"
+            v-else-if="!web3Store.isWalletConnected"
             class="xs:w-fit w-full flex items-center justify-center px-4 py-2.5 border-Primary-Blue border text-Primary-Blue text-sm rounded-md font-semibold hover:bg-Primary-Blue hover:text-white transition-all duration-200 cursor-pointer"
           >
             Connect Wallet
@@ -78,7 +84,7 @@
             @click="openProfileDropdown"
             class="py-1 px-2 max-w-fit font-bold text-Grayscale-Grey-2 text-sm leading-6 bottom-4 right-4 rounded-lg outline outline-Grayscale-Grey-5 -outline-offset-1 bg-Tint-Brand-Primary"
           >
-            1BoatSLRHtKNngkdXEeobR76b53LETtpyT
+            {{ web3Store.account }}
           </button>
           <div
             v-if="profileDropdownController"
@@ -104,10 +110,11 @@
 import { onClickOutside } from '@vueuse/core';
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import useWeb3Store from '@/store/web3';
 
 const route = useRoute();
 const responsiveNav = ref(false);
-const connectWalletController = ref(false);
+const web3Store = useWeb3Store();
 const profileDropdownMenu = ref();
 const profileDropdownController = ref(false);
 
@@ -125,8 +132,8 @@ function openProfileDropdown() {
 }
 
 function connectWallet() {
-  connectWalletController.value = !connectWalletController.value;
   profileDropdownController.value = false;
+  web3Store.connect();
 }
 
 onClickOutside(profileDropdownMenu, () => {

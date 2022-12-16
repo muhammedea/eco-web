@@ -44,5 +44,7 @@ module.exports = {
         accessibleChildren: ['button'],
       },
     ],
+    // 'object-shorthand': ['error', 'consistent-as-needed'],
+    'prefer-destructuring': 0,
   },
 };

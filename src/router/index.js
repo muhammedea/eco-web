@@ -52,17 +52,15 @@ const router = createRouter({
   routes,
   scrollBehavior(to) {
     if (to.hash) {
-      // eslint-disable-next-line
       setTimeout(() => {
-        return window.scrollTo({
+        window.scrollTo({
           top: document.querySelector(to.hash).offsetTop,
           behavior: 'smooth',
         });
       }, 50);
     }
-    // eslint-disable-next-line
     setTimeout(() => {
-      return window.scrollTo({ top: 0 });
+      window.scrollTo({ top: 0 });
     }, 100);
   },
 });
