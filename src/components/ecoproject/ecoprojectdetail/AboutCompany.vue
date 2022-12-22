@@ -8,7 +8,7 @@
           <img src="@/assets/images/exp-photo-2.png" alt="brand-logo" class="h-full rounded-full object-cover" />
         </div>
         <div class="text-base-leading-5 flex flex-col text-Black-and-White-Black font-bold">
-          <span class="line-clamp-2">Bluth Company</span>
+          <span class="line-clamp-2">{{ project.name }}</span>
           <span class="font-normal text-Grayscale-Grey-2">Green company since 2010</span>
         </div>
       </div>
@@ -220,9 +220,18 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { getProjectById } from '@/utils/projects';
 import EcoProjectStakeCard from './EcoProjectStakeCard.vue';
 
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
+  },
+});
+
+const project = computed(() => getProjectById(props.id));
 const progress = ref(53);
 
 </script>

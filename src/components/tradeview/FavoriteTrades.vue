@@ -10,15 +10,7 @@
           </div>
         </div>
         <div class="flex flex-col gap-2 w-full">
-            <TradeListCard />
-            <TradeListCard />
-            <TradeListCard />
-            <TradeListCard />
-            <TradeListCard />
-            <TradeListCard />
-            <TradeListCard />
-            <TradeListCard />
-            <TradeListCard />
+            <TradeListCard v-for="pair in pairs" :key="pair.id" :pair="pair" />
         </div>
       </y-tab>
     </y-tabs>
@@ -26,7 +18,10 @@
 </template>
 <script setup>
 import { ref } from 'vue';
+import { getAllPairs } from '@/utils/pairs';
 import TradeListCard from '../basecomponents/TradeListCard.vue';
+
+const pairs = getAllPairs();
 
 const tabs = ref(['0']);
 </script>

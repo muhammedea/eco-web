@@ -1,6 +1,6 @@
 <template>
   <button
-    @click="router.push('/ecoproject/detail')"
+    @click="router.push('/ecoproject/detail/' + project.id)"
     class="w-full xs:w-n-gap-3-50 md:w-n-gap-3-33 lg:w-n-gap-3-50 xl:w-n-gap-3-33 2xl:w-n-gap-4-25 h-auto cursor-pointer ecoproject-card"
   >
     <div class="flex flex-col gap-2">
@@ -19,7 +19,7 @@
           <p
             class="text-left text-base-leading-5 lg:text-lg leading-5 text-Black-and-White-Black font-semibold hover:text-Acsen-Yellow relative transition-all duration-200 line-clamp-2 ecoproject-name"
           >
-            GREEN FUEL Technologies
+            {{ project.name }}
           </p>
         </div>
         <div class="flex flex-col gap-2">
@@ -95,6 +95,14 @@
 </template>
 <script setup>
 import router from '@/router';
+
+defineProps({
+  project: {
+    type: Object,
+    required: true,
+  },
+});
+
 </script>
 <style scoped>
 .dashed-stroke {

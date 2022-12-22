@@ -83,8 +83,8 @@
         </div>
       </div>
     </div>
-    <div class="flex gap-y-10 flex-wrap justify-between w-full">
-      <EcoProjectCard v-for="i in 9" :key="i" />
+    <div class="flex gap-10 flex-wrap w-full">
+      <EcoProjectCard v-for="project in projects" :key="project.id" :project="project" />
     </div>
     <div class="w-full hidden md:flex items-center justify-center">
       <y-pagination :total="90" :perPage="9" :pageRange="4" :page="1"></y-pagination>
@@ -97,6 +97,8 @@
 <script setup>
 import { ref } from 'vue';
 import EcoProjectCard from '@/components/ecoproject/EcoProjectCard.vue';
+import { getAllProjects } from '@/utils/projects';
 
 const suggestionChipPickedVal = ref('suggestion-all');
+const projects = getAllProjects();
 </script>

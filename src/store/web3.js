@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ethers } from 'ethers';
-import { isProxy } from 'vue';
+import { shallowRef } from 'vue';
 import { getActiveChain, getChainInfo, getUsableChains } from '@/utils/chains';
 
 const useWeb3Store = defineStore('web3', {
@@ -9,17 +9,20 @@ const useWeb3Store = defineStore('web3', {
 
     isLoading: true,
     isWalletConnected: false,
-    web3provider: null,
-    provider: null,
+    web3provider: shallowRef(null),
+    provider: shallowRef(null),
     chainId: null,
     account: null,
   }),
   getters: {
-    network(state) {
+    chainInfo(state) {
       return getChainInfo(state.chainId);
     },
-    networks() {
-      return getUsableChains();
+    isWrongChain(state) {
+      return state.isWalletConnected && getChainInfo(state.chainId).isUsable === false;
+    },
+    isUsable(state) {
+      return state.isWalletConnected && state.account && getChainInfo(state.chainId).isUsable;
     },
   },
   actions: {
@@ -67,7 +70,10 @@ const useWeb3Store = defineStore('web3', {
     async connect() {
       console.log('on connect');
       this.isLoading = true;
-      await this.refreshConnection();
+      const result = await this.refreshConnection();
+      if (!result) {
+        return false;
+      }
 
       this.provider.on('connect', async (info) => {
         console.log('connect', info);
@@ -91,29 +97,61 @@ const useWeb3Store = defineStore('web3', {
         console.log('chainChanged', chainId);
         this.chainId = parseInt(chainId, 10);
         this.isWalletConnected = true;
-        window.location.reload(true);
+        window.location.reload();
       });
 
       this.provider.on('disconnect', (a) => {
         console.log('disconnect', a);
         this.isWalletConnected = false;
         this.chainId = null;
-        window.location.reload(true);
+        window.location.reload();
       });
 
       this.isLoading = false;
 
       return true;
     },
-    async changeNetwork(network) {
-      if (isProxy(this.providerObj)) {
-        this.isWalletConnected = false;
-        await this.provider.request({
-          method: 'wallet_addEthereumChain',
-          params: [network.params],
-        });
-        return true;
+    async changeNetwork() {
+      const chain = getUsableChains()[0];
+      const chainIdHex = ethers.utils.hexValue(ethers.BigNumber.from(chain.chainId).toHexString());
+      if (this.web3provider && chain) {
+        try {
+          await this.web3provider.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: chainIdHex }],
+          });
+          window.location.reload();
+          return true;
+        } catch (switchError) {
+          // This error code indicates that the chain has not been added to MetaMask.
+          if (switchError.code === 4902) {
+            try {
+              await this.web3provider.request({
+                method: 'wallet_addEthereumChain',
+                params: [
+                  {
+                    chainName: chain.name,
+                    chainId: chainIdHex,
+                    nativeCurrency: chain.nativeCurrency,
+                    rpcUrls: chain.rpcUrls,
+                    blockExplorerUrls: chain.blockExplorerUrls,
+                  },
+                ],
+              });
+              window.location.reload();
+              return true;
+            } catch (addError) {
+              // handle "add" error
+              console.log(addError);
+            }
+          }
+          // handle other "switch" errors
+          console.log(switchError);
+        }
+        return false;
       }
+
+      console.log('provider or chain not found');
       return false;
     },
     async logout() {

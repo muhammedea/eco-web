@@ -41,4 +41,11 @@
 </template>
 <script setup>
 import OrderCard from '../basecomponents/OrderCard.vue';
+
+defineProps({
+  pair: {
+    type: Object,
+    required: true,
+  },
+});
 </script>

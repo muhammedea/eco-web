@@ -16,9 +16,7 @@ function getContractFunction(contractName) {
 }
 
 const useContractsStore = defineStore('contracts', {
-  getters: Object.fromEntries(
-    contracts.keys().map((c) => [c, getContractFunction(c)]),
-  ),
+  getters: Object.fromEntries(Object.keys(contracts[80001]).map((c) => [c, getContractFunction(c)])),
 });
 
 export default useContractsStore;

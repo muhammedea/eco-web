@@ -24,7 +24,7 @@ const routes = [
         component: EcoProjectView,
       },
       {
-        path: '/ecoproject/detail',
+        path: '/ecoproject/detail/:id',
         name: 'EcoProjectDetailView',
         component: EcoProjectDetailView,
       },

@@ -20,11 +20,14 @@
         </div>
       </div>
       <div class="w-full flex flex-col gap-4">
-        <TradeListCard v-for="i in 95" :key="i" />
+        <TradeListCard v-for="pair in pairs" :key="pair.id" :pair="pair" />
       </div>
     </div>
   </div>
 </template>
 <script setup>
+import { getAllPairs } from '@/utils/pairs';
 import TradeListCard from '../basecomponents/TradeListCard.vue';
+
+const pairs = getAllPairs();
 </script>
