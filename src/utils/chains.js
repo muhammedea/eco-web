@@ -4,7 +4,7 @@ let allChains = [
     chainId: 80001,
     isTest: true,
     nativeCurrency: { name: 'Mumbai MATIC', symbol: 'MATIC', decimals: 18 },
-    rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
+    rpcUrls: ['https://rpc.ankr.com/polygon_mumbai'],
     blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
   },
 ];
