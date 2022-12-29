@@ -11,7 +11,8 @@ let allChains = [
 
 allChains = allChains.map((c) => ({
   ...c,
-  isUsable: c.isTest ? process.env.NODE_ENV === 'development' : true,
+  // isUsable: c.isTest ? process.env.NODE_ENV === 'development' : true,
+  isUsable: true,
 }));
 
 export function getChainInfo(chainId) {

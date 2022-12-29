@@ -107,7 +107,7 @@ export default function useTradeService(pair) {
       console.log('Order is fillable');
     }
 
-    fetch('https://polygon.api.0x.org/orderbook/v1/order', {
+    fetch('/orderbook/v1/order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...limitOrder, signature }),
