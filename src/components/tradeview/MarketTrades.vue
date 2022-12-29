@@ -87,4 +87,13 @@
     </div>
   </div>
 </template>
-<script setup></script>
+<script setup>
+
+defineProps({
+  pair: {
+    type: Object,
+    required: true,
+  },
+});
+
+</script>

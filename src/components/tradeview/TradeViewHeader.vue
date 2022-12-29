@@ -21,7 +21,7 @@
             <i class="yi yi-star-filled" style="font-size: 16px"></i>
           </span>
         </div>
-        <span class="text-Grayscale-Grey-2 text-sm font-normal">TFBX/USDT</span>
+        <span class="text-Grayscale-Grey-2 text-sm font-normal">{{ pair.tokenA.symbol }} / {{ pair.tokenB.symbol }}</span>
       </div>
     </div>
     <div class="flex flex-col gap-1">
@@ -54,6 +54,13 @@ import { ref } from 'vue';
 import ChangeToken from './ChangeToken.vue';
 // eslint-disable-next-line
 import { onClickOutside } from '@vueuse/core';
+
+defineProps({
+  pair: {
+    type: Object,
+    required: true,
+  },
+});
 
 const isFavorite = ref(false);
 const changeTokenToggle = ref(false);

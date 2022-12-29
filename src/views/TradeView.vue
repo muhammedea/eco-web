@@ -1,13 +1,13 @@
 <template>
   <div class="px-6 pt-8 flex flex-col w-full">
-    <TradeViewHeader />
+    <TradeViewHeader :pair="pair" />
     <div class="flex w-full lg:flex-row flex-col border-b">
       <div class="w-full lg:w-5/12 flex flex-col sm:flex-row justify-between lg:pr-6 lg:border-r pb-6">
         <div class="w-full sm:w-n-gap-3-50">
-          <BuyAndSell />
+          <BuyAndSell :pair="pair" />
         </div>
         <div class="w-full sm:w-n-gap-3-50">
-          <BuyAndSell :isSell="true" />
+          <BuyAndSell :pair="pair" :isSell="true" />
         </div>
       </div>
       <div class="w-full lg:w-7/12 flex md:flex-row flex-col justify-center items-center">
@@ -19,8 +19,8 @@
         <FavoriteTrades />
       </div>
       <div class="w-full lg:w-7/12 flex md:flex-row flex-col">
-        <OrderBook />
-        <MarketTrades />
+        <OrderBook :pair="pair" />
+        <MarketTrades :pair="pair" />
       </div>
     </div>
   </div>
@@ -31,5 +31,12 @@ import OrderBook from '@/components/tradeview/OrderBook.vue';
 import MarketTrades from '@/components/tradeview/MarketTrades.vue';
 import FavoriteTrades from '@/components/tradeview/FavoriteTrades.vue';
 import BuyAndSell from '@/components/tradeview/BuyAndSell.vue';
-// import { ref } from 'vue';
+import { getAllPairs } from '@/utils/pairs';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+const pairs = getAllPairs();
+const route = useRoute();
+const pairId = computed(() => (route.params.pairId && parseInt(route.params.pairId, 10)) || 1);
+const pair = computed(() => pairs.find((p) => p.id === pairId.value));
 </script>

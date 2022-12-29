@@ -73,6 +73,13 @@
             Loading...
           </button>
           <button
+            @click="switchNetwork"
+            v-else-if="web3Store.isWrongChain"
+            class="xs:w-fit w-full flex items-center justify-center px-4 py-2.5 border-Primary-Blue border text-Primary-Blue text-sm rounded-md font-semibold hover:bg-Primary-Blue hover:text-white transition-all duration-200 cursor-pointer"
+          >
+            Change Network
+          </button>
+          <button
             @click="connectWallet"
             v-else-if="!web3Store.isWalletConnected"
             class="xs:w-fit w-full flex items-center justify-center px-4 py-2.5 border-Primary-Blue border text-Primary-Blue text-sm rounded-md font-semibold hover:bg-Primary-Blue hover:text-white transition-all duration-200 cursor-pointer"
@@ -134,6 +141,10 @@ function openProfileDropdown() {
 function connectWallet() {
   profileDropdownController.value = false;
   web3Store.connect();
+}
+
+function switchNetwork() {
+  web3Store.changeNetwork();
 }
 
 onClickOutside(profileDropdownMenu, () => {

@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-10 pb-8">
     <div id="about-project" class="flex flex-col gap-5 text-justify">
       <div class="flex flex-col gap-1">
-        <h1 class="text-Black-and-White-Black text-logo font-bold">About the Bluth project</h1>
+        <h1 class="text-Black-and-White-Black text-logo font-bold">About the {{ project.name }}</h1>
         <p class="text-Grayscale-Grey-3 text-base font-medium">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem
           ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
@@ -282,7 +282,17 @@
 import TeamCard from '@/components/ecoproject/ecoprojectdetail/TeamCard.vue';
 // eslint-disable-next-line
 import { onClickOutside } from '@vueuse/core';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { getProjectById } from '@/utils/projects';
+
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
+  },
+});
+
+const project = computed(() => getProjectById(props.id));
 
 const teamCardModal = ref();
 const teamMember = ref({
