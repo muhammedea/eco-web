@@ -11,7 +11,7 @@
       <ChangeToken ref="changeToken" v-if="changeTokenToggle" />
       <div class="flex flex-col gap-1">
         <div class="flex items-center gap-2.5 text-base-leading-5 font-semibold">
-          <span class="text-Black-and-White-Black">TrueFeedBack</span>
+          <span class="text-Black-and-White-Black">{{ pair.tokenA.name }}</span>
           <span
             @click="isFavorite = !isFavorite"
             @keydown="isFavorite"
@@ -26,46 +26,62 @@
     </div>
     <div class="flex flex-col gap-1">
       <div class="flex items-center gap-2.5 text-base-leading-5 font-semibold">
-        <span class="text-Black-and-White-Black">0.0006375</span>
-        <span class="text-green-500">+1.96%</span>
+        <span class="text-Black-and-White-Black">{{ data.currentPriice }}</span>
+        <span class="text-green-500">+0.5%</span>
       </div>
-      <span class="text-Grayscale-Grey-2 text-sm font-normal">$ 0.00063</span>
+      <span class="text-Grayscale-Grey-2 text-sm font-normal">$ {{ data.currentPriice }}</span>
     </div>
     <div class="hidden lg:flex flex-col gap-1">
       <span class="text-Grayscale-Grey-2 text-sm font-normal">24 High</span>
-      <span class="text-Black-and-White-Black text-base-leading-5 font-semibold">$ 0.00063</span>
+      <span class="text-Black-and-White-Black text-base-leading-5 font-semibold">$ {{ data.highest24hour }}</span>
     </div>
     <div class="hidden lg:flex flex-col gap-1">
       <span class="text-Grayscale-Grey-2 text-sm font-normal">24 Low</span>
-      <span class="text-Black-and-White-Black text-base-leading-5 font-semibold">$ 0.00063</span>
+      <span class="text-Black-and-White-Black text-base-leading-5 font-semibold">$ {{ data.lowest24hour }}</span>
     </div>
     <div class="hidden lg:flex flex-col gap-1">
-      <span class="text-Grayscale-Grey-2 text-sm font-normal">24h Volume (TFBX)</span>
-      <span class="text-Black-and-White-Black text-base-leading-5 font-semibold">$ 0.00063</span>
-    </div>
-    <div class="hidden lg:flex flex-col gap-1">
-      <span class="text-Grayscale-Grey-2 text-sm font-normal">24 High</span>
-      <span class="text-Black-and-White-Black text-base-leading-5 font-semibold">$ 0.00063</span>
+      <span class="text-Grayscale-Grey-2 text-sm font-normal">24h Volume ({{ pair.tokenA.symbol }})</span>
+      <span class="text-Black-and-White-Black text-base-leading-5 font-semibold">$ {{ data.volume24hour }}</span>
     </div>
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import ChangeToken from './ChangeToken.vue';
 // eslint-disable-next-line
 import { onClickOutside } from '@vueuse/core';
 
-defineProps({
+const props = defineProps({
   pair: {
     type: Object,
     required: true,
   },
 });
 
+const data = reactive({
+  currentPriice: '1',
+  lowest24hour: '1',
+  highest24hour: '1',
+  volume24hour: '1',
+});
+
 const isFavorite = ref(false);
 const changeTokenToggle = ref(false);
 const changeToken = ref();
 const changeTokenToggler = ref();
+
+function fetchData() {
+  fetch(`/api/orderbook/v1/stats?${new URLSearchParams({
+    baseToken: props.pair.tokenA.contractAddress,
+    quoteToken: props.pair.tokenA.contractAddress,
+  })}`)
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+      Object.assign(data, responseJson);
+    });
+}
+fetchData();
 
 function openChangeTokenPopup() {
   changeTokenToggle.value = !changeTokenToggle.value;

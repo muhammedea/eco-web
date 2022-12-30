@@ -5,10 +5,16 @@ module.exports = defineConfig({
   productionSourceMap: false,
   transpileDependencies: true,
   configureWebpack: {
-    plugins: [
-      new NodePolyfillPlugin(),
-    ],
-    resolve: {
+    plugins: [new NodePolyfillPlugin()],
+    resolve: {},
+  },
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:3344',
+        secure: false,
+        pathRewrite: { '^/api': '/' },
+      },
     },
   },
 });
