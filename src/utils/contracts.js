@@ -13,6 +13,7 @@ const contracts = {
       abiName: 'FlashWallet',
     },
 
+    // ---------- Tokens ----------
     Token_ECO: {
       address: '0x535bc2B3654Fd04e545b57f58B847d89626a1568',
       abiName: 'ERC20',
@@ -28,6 +29,16 @@ const contracts = {
     Token_ECO_ORNG_2: {
       address: '0xEAc79A59750680b43B9AA40eA46124B1a54a0227',
       abiName: 'ERC20',
+    },
+
+    // ---------- Stake Contracts ----------
+    Stake_ECO_ORNG_1: {
+      address: '0x22c041aB5D03e0bAb56b5c92a9C39e732AF3B412',
+      abiName: 'LockedStakingPositions',
+    },
+    Stake_ECO_ORNG_2: {
+      address: '0x1d8c8188fd1bc66DD375d2E37cbA715144d089f7',
+      abiName: 'LockedStakingPositions',
     },
   },
 };
@@ -53,6 +64,9 @@ export function getContract(contractName) {
   // TODO: can be a cache
   const web3Store = useWeb3Store();
   if (web3Store.provider) {
+    if (!contracts[web3Store.chainId]) {
+      throw new Error(`Chain not found, ${web3Store.chainId}`);
+    }
     const contract = contracts[web3Store.chainId][contractName];
     if (!contract) {
       throw new Error(`contract not found, ${contractName}`);

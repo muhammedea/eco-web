@@ -55,9 +55,16 @@
       </div>
     </div>
     <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-2">
+        <span class="text-Black-and-White-Black text-base-leading-5 font-bold">Stake</span>
+        <StakeCard :project-id="project.id" />
+      </div>
       <div class="flex flex-col gap-4">
         <span class="text-Black-and-White-Black text-base-leading-5 font-bold">My Stakes</span>
-        <EcoProjectStakeCard :stake-progress="55" v-for="i in 3" :key="i"/>
+        <div v-if="stakeService.isLoading.value"></div>
+        <div v-else class="flex flex-col gap-2">
+          <EcoProjectStakeCard v-for="position in stakeService.stakePositions.value" :key="position.tokenId" :stake-position="position" :token-symbol="project.token.symbol" />
+        </div>
       </div>
       <div class="flex flex-col gap-4">
         <span class="text-Black-and-White-Black text-base-leading-5 font-bold">Financial Details</span>
@@ -222,7 +229,9 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { getProjectById } from '@/utils/projects';
+import useStakeService from '@/services/stakeService';
 import EcoProjectStakeCard from './EcoProjectStakeCard.vue';
+import StakeCard from './StakeCard.vue';
 
 const props = defineProps({
   id: {
@@ -232,6 +241,7 @@ const props = defineProps({
 });
 
 const project = computed(() => getProjectById(props.id));
+const stakeService = useStakeService(project.value.token.symbol);
 const progress = ref(53);
 
 </script>
