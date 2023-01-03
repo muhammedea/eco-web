@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="w-full lg:w-7/12 flex md:flex-row flex-col justify-center items-center">
-        <h1 class="text-title">GRAFİKLER</h1>
+        <TradeChart :pair="pair" />
       </div>
     </div>
     <div class="flex w-full lg:flex-row flex-col">
@@ -31,6 +31,7 @@ import OrderBook from '@/components/tradeview/OrderBook.vue';
 import MarketTrades from '@/components/tradeview/MarketTrades.vue';
 import FavoriteTrades from '@/components/tradeview/FavoriteTrades.vue';
 import BuyAndSell from '@/components/tradeview/BuyAndSell.vue';
+import TradeChart from '@/components/tradeview/TradeChart.vue';
 import { getAllPairs } from '@/utils/pairs';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
