@@ -1,24 +1,33 @@
 <template>
-  <div class="flex flex-col gap-10 pb-8">
-    <div id="about-project" class="flex flex-col gap-5 text-justify">
+  <div class="flex flex-col gap-10 pb-8 py-6">
+    <div id="about-project" class="flex flex-col sm:flex-row gap-6 items-start justify-between">
+      <div class="flex items-start gap-3">
+        <span class="w-10 h-10 border rounded-full flex items-center justify-center p-2">
+          <img src="@/assets/images/ampl.svg" alt="project-logo" />
+        </span>
+        <div class="flex flex-col text-2xl leading-10 font-bold text-Black-and-White-Black">
+          {{ project.name }}
+          <span class="text-base text-Grayscale-Grey-2 font-normal"> Istanbul, Turkey </span>
+        </div>
+      </div>
+      <button class="w-full sm:w-fit px-10 py-2 min-w-max rounded transition-all duration-200 border border-Primary-Blue text-Primary-Blue hover:bg-Primary-Blue hover:text-white">
+        Production details
+      </button>
+    </div>
+    <StakeWidget></StakeWidget>
+    <div class="flex flex-col gap-5 text-justify">
       <div class="flex flex-col gap-1">
-        <h1 class="text-Black-and-White-Black text-logo font-bold">About the {{ project.name }}</h1>
+        <h1 class="text-Black-and-White-Black text-xl leading-5 font-bold">About Project</h1>
         <p class="text-Grayscale-Grey-3 text-base font-medium">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore.
         </p>
       </div>
       <div class="flex flex-wrap md:flex-row flex-col md:gap-0 gap-6">
         <div class="md:w-3/5 w-full h-64 relative">
-          <img
-            src="@/assets/images/exp-photo.jpg"
-            class="w-full h-full object-cover object-center"
-            alt="project-photo-1"
-          />
+          <img src="@/assets/images/exp-photo.jpg" class="w-full h-full object-cover object-center" alt="project-photo-1" />
           <button class="w-full h-full absolute bg-Overlay-Black flex justify-center items-center top-0 left-0">
-            <span
-              class="w-14 h-14 animate-pulse !duration-500 rounded-full border-4 border-white text-white text-3xl flex items-center justify-center"
-            >
+            <span class="w-14 h-14 animate-pulse !duration-500 rounded-full border-4 border-white text-white text-3xl flex items-center justify-center">
               <i class="yi yi-play"></i>
             </span>
           </button>
@@ -37,9 +46,7 @@
             </div>
             <div class="flex">
               <div class="w-1/2 flex flex-col">
-                <span class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1"
-                  >Campaign Closing Date</span
-                >
+                <span class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1">Campaign Closing Date</span>
                 <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">19.08.2022</p>
               </div>
               <div class="w-1/2 flex flex-col pl-5">
@@ -49,9 +56,7 @@
             </div>
             <div class="flex">
               <div class="w-1/2 flex flex-col">
-                <span class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1"
-                  >Stage of the Initiative</span
-                >
+                <span class="text-sm leading-6 text-Grayscale-Grey-3 flex items-center gap-1">Stage of the Initiative</span>
                 <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">Growth</p>
               </div>
             </div>
@@ -64,11 +69,7 @@
               <img src="@/assets/images/exp-photo.jpg" class="w-full h-full object-cover" alt="project-photo-3" />
             </div>
             <div class="w-n-gap-2-33 h-12 rounded-md overflow-hidden relative">
-              <div
-                class="w-full h-full flex justify-center items-center absolute top-0 left-0 bg-Overlay-Black text-white text-sm"
-              >
-                +4
-              </div>
+              <div class="w-full h-full flex justify-center items-center absolute top-0 left-0 bg-Overlay-Black text-white text-sm">+4</div>
               <img src="@/assets/images/exp-photo.jpg" class="w-full h-full object-cover" alt="project-photo-4" />
             </div>
           </div>
@@ -79,11 +80,8 @@
       <div class="flex flex-col gap-4 text-base text-Grayscale-Grey-2">
         <span class="text-xl leading-5 text-Black-and-White-Black font-semibold">IMPORTANT ANNOUNCEMENTS:</span>
         <p class="font-normal">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua.
-          <span class="font-medium text-Black-and-White-Black">
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </span>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          <span class="font-medium text-Black-and-White-Black"> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </span>
         </p>
         <div class="flex flex-col gap-2.5">
           <p class="flex items-center gap-2">
@@ -103,30 +101,23 @@
       <div class="flex flex-col gap-4 text-base text-Grayscale-Grey-2">
         <span class="text-xl leading-5 text-Black-and-White-Black font-semibold">FREE SHARE GIFT CAMPAIGN</span>
         <p class="font-normal">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          nisi ut aliquip ex ea commodo consequat.
         </p>
         <p class="font-normal">
           Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-          <span class="font-medium text-Black-and-White-Black">
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum.
-          </span>
+          <span class="font-medium text-Black-and-White-Black"> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span>
         </p>
       </div>
       <div class="flex flex-col gap-4 text-base text-Grayscale-Grey-2">
-        <span class="text-xl leading-5 text-Black-and-White-Black font-semibold"
-          >FREE SHARE GIFT CAMPAIGN - UPDATE</span
-        >
+        <span class="text-xl leading-5 text-Black-and-White-Black font-semibold">FREE SHARE GIFT CAMPAIGN - UPDATE</span>
         <p class="font-normal">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          nisi ut aliquip ex ea commodo consequat.
         </p>
         <p class="font-normal">
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+          mollit anim id est laborum.
         </p>
       </div>
     </div>
@@ -134,16 +125,12 @@
       <div class="flex flex-col gap-1">
         <span class="text-Black-and-White-Black text-logo font-bold">Documents</span>
         <p class="text-Grayscale-Grey-3 text-base font-medium">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore.
         </p>
       </div>
       <div class="flex flex-wrap gap-5">
-        <div
-          v-for="i in 7"
-          :key="i"
-          class="w-full md:w-n-gap-5-50 border border-Grayscale-Grey-4 rounded-md flex flex-wrap flex-row gap-6 items-center p-4"
-        >
+        <div v-for="i in 7" :key="i" class="w-full md:w-n-gap-5-50 border border-Grayscale-Grey-4 rounded-md flex flex-wrap flex-row gap-6 items-center p-4">
           <div class="w-10 h-10 bg-Primary-Blue rounded-full flex items-center justify-center">
             <i class="yi yi-file text-xl text-white"></i>
           </div>
@@ -168,8 +155,8 @@
       <div class="flex flex-col gap-1">
         <span class="text-Black-and-White-Black text-logo font-bold">Team</span>
         <p class="text-Grayscale-Grey-3 text-base font-medium">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore.
         </p>
       </div>
       <div class="flex flex-wrap gap-6">
@@ -188,8 +175,8 @@
       <div class="flex flex-col gap-1">
         <span class="text-Black-and-White-Black text-logo font-bold">Production</span>
         <p class="text-Grayscale-Grey-3 text-base font-medium">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore.
         </p>
       </div>
     </div>
@@ -197,8 +184,8 @@
       <div class="flex flex-col gap-1">
         <span class="text-Black-and-White-Black text-logo font-bold">Financial tables</span>
         <p class="text-Grayscale-Grey-3 text-base font-medium">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore.
         </p>
       </div>
       <div class="w-full">
@@ -234,8 +221,8 @@
       <div class="flex flex-col gap-1">
         <span class="text-Black-and-White-Black text-logo font-bold">Energy analysis</span>
         <p class="text-Grayscale-Grey-3 text-base font-medium">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore.
         </p>
       </div>
     </div>
@@ -243,8 +230,8 @@
       <div class="flex flex-col gap-1">
         <span class="text-Black-and-White-Black text-logo font-bold">Pictures & Videos</span>
         <p class="text-Grayscale-Grey-3 text-base font-medium">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore.
         </p>
       </div>
     </div>
@@ -252,8 +239,8 @@
       <div class="flex flex-col gap-1">
         <span class="text-Black-and-White-Black text-logo font-bold">Updates</span>
         <p class="text-Grayscale-Grey-3 text-base font-medium">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore.
         </p>
       </div>
     </div>
@@ -261,16 +248,16 @@
       <div class="flex flex-col gap-1">
         <span class="text-Black-and-White-Black text-logo font-bold">Questions</span>
         <p class="text-Grayscale-Grey-3 text-base font-medium">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore.
         </p>
       </div>
       <div class="flex flex-col gap-3">
         <div v-for="i in 7" :key="i" class="w-full border h-auto border-Grayscale-Grey-4 rounded-md p-4">
           <y-accordion :title="'Question' + i" :hr="false" collapse icon="yi yi-chevron-right">
             <p class="text-Grayscale-Grey-3 text-base font-medium py-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore.
             </p>
           </y-accordion>
         </div>
@@ -279,11 +266,12 @@
   </div>
 </template>
 <script setup>
-import TeamCard from '@/components/ecoproject/ecoprojectdetail/TeamCard.vue';
 // eslint-disable-next-line
 import { onClickOutside } from '@vueuse/core';
 import { ref, computed } from 'vue';
 import { getProjectById } from '@/utils/projects';
+import TeamCard from '@/components/ecoproject/ecoprojectdetail/TeamCard.vue';
+import StakeWidget from './StakeWidget.vue';
 
 const props = defineProps({
   id: {

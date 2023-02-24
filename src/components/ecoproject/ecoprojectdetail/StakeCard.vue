@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col gap-2 w-full">
-    <y-input suffix class="mt-3 w-full" placeholder="0" type="number" label="Amount" v-model="stakeAmount">
+  <div class="flex flex-col gap-2 w-full p-4 border rounded-md">
+    <y-input suffix class="w-full" placeholder="0" type="number" label="Amount" v-model="stakeAmount">
       <template #suffix>
         <div class="py-2">
           <span class="px-2 border-l flex justify-center items-center text-Black-and-White-Black font-bold">
@@ -9,31 +9,18 @@
         </div>
       </template>
     </y-input>
-    <y-select
-      class="mt-3 w-full"
-      placeholder="Select Lock Period"
-      label="Lock Period"
-      v-model="selectedPeriod"
-      :items="items"
-      return-object
-      item-text="text"
-    >
-    </y-select>
+    <y-select class="w-full" placeholder="Select Lock Period" label="Lock Period" v-model="selectedPeriod" :items="items" return-object item-text="text"> </y-select>
 
     <div v-if="stakeService.isLoading.value">Loading...</div>
     <button
       v-else-if="stakeService.isTokenApproved.value === false"
       @click="approve"
-      class="py-[14px] text-white text-sm font-medium w-full mt-4 rounded-md transition-all duration-200 bg-gray-500 hover:bg-gray-400"
+      class="py-2.5 text-white text-sm font-medium w-full mt-4 rounded-md transition-all duration-200 bg-Primary-Blue border border-Primary-Blue hover:bg-white hover:text-Primary-Blue"
     >
-        Approve {{ project.token.symbol }}
+      Approve {{ project.token.symbol }}
     </button>
-    <button
-      v-else
-      @click="stake"
-      class="py-[14px] text-white text-sm font-medium w-full mt-4 rounded-md transition-all duration-200 bg-Color-Code-Green hover:bg-Color-Code-Green-Hover"
-    >
-        Stake {{ project.token.symbol }}
+    <button v-else @click="stake" class="py-2.5 text-white text-sm font-medium w-full mt-4 rounded-md transition-all duration-200 bg-Color-Code-Green hover:bg-Color-Code-Green-Hover">
+      Stake {{ project.token.symbol }}
     </button>
   </div>
 </template>

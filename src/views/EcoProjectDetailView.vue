@@ -1,6 +1,5 @@
 <template>
   <div class="w-full flex flex-col relative">
-    <GoBackBanner whereToGoBack="EcoProject List" />
     <div class="flex xl:flex-row flex-col">
       <div class="w-full overflow-scroll scrollbar-hide xl:overflow-visible xl:w-fit py-6 xl:p-0 xl:border-none border-y">
         <ContentNavigation />
@@ -17,12 +16,12 @@
   </div>
 </template>
 <script setup>
-import GoBackBanner from '@/components/basecomponents/GoBackBanner.vue';
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
+// import GoBackBanner from '@/components/basecomponents/GoBackBanner.vue';
 import ContentNavigation from '@/components/ecoproject/ecoprojectdetail/ContentNavigation.vue';
 import AboutCompany from '@/components/ecoproject/ecoprojectdetail/AboutCompany.vue';
 import AboutProject from '@/components/ecoproject/ecoprojectdetail/AboutProject.vue';
-import { useRoute } from 'vue-router';
-import { computed } from 'vue';
 
 const route = useRoute();
 const rotuteId = computed(() => +route.params.id);

@@ -1,138 +1,185 @@
 <template>
-  <div class="w-full border border-Secondary-Light-Blue rounded-md flex">
-    <div class="w-full flex flex-col gap-1 p-4">
-      <div class="flex flex-col w-full">
-        <div class="flex justify-between items-center">
-          <span class="text-sm text-Grayscale-Grey-3">Amount</span>
-          <span class="text-sm text-Grayscale-Grey-3">{{ lockText }}</span>
-        </div>
-        <span class="text-lg leading-6 text-Black-and-White-Black">{{ formatAmount(stakePosition.amount) }} {{
-    tokenSymbol
-}}</span>
-      </div>
+  <div class="stake-card w-full flex flex-col border rounded-md">
+    <div class="w-full flex flex-col p-4 pb-3 gap-3">
       <div class="flex flex-col gap-1">
-        <div class="flex justify-between items-start">
-          <div class="flex flex-col">
-            <span class="text-xs text-Grayscale-Grey-3">Start</span>
-            <div class="flex items-center gap-1 text-sm text-Grayscale-Grey-3">
-              <i class="yi yi-lock" style="font-size: 16px"></i>
-              <span class="text-sm text-Black-and-White-Black">{{ startDate }}</span>
-            </div>
-          </div>
-          <div class="flex flex-col items-end">
-            <span class="text-xs text-Grayscale-Grey-3">End</span>
-            <div class="flex items-center gap-1 text-sm text-Grayscale-Grey-3">
-              <i class="yi yi-unlock" style="font-size: 16px"></i>
-              <span class="text-sm text-Black-and-White-Black">{{ endDate }}</span>
-            </div>
+        <div class="flex justify-between items-center font-semibold">
+          <p class="text-sm leading-6 text-Grayscale-Grey-3">Amount</p>
+          <p v-if="false" class="text-sm leading-6 text-Color-Code-Orange">Waiting</p>
+          <div class="flex items-center">
+            <p class="text-sm leading-6 text-Color-Code-Green">Finished</p>
+            <y-dropdown left :classes="['!w-[98px]']">
+              <template #activator="{ open }">
+                <y-button class="stake-card-actions hidden ml-2" @click="open" circle size="xs" icon="yi yi-more text-Graysacele-Grey-2"></y-button>
+              </template>
+              <y-dropdown-item @click="openRepeatModal">Restake</y-dropdown-item>
+              <y-dropdown-item @click="openFinishModal">Remove</y-dropdown-item>
+            </y-dropdown>
           </div>
         </div>
+        <div class="flex justify-between items-center font-semibold">
+          <div class="flex items-end gap-1">
+            <p class="text-xl leading-6 text-Black-and-White-Black">50.0</p>
+            <p class="text-xs leading-5 text-Grayscale-Grey-3 font-normal">ECO_ORNG_1</p>
+          </div>
+          <span class="text-sm leading-6 text-Black-and-White-Black">3 months lock</span>
+        </div>
       </div>
-      <y-progress-bar :progress="stakeProgress" :height="12" color="#FFC841"></y-progress-bar>
-      <div class="ml-auto text-sm text-Grayscale-Grey-3">{{ leftTime }}</div>
+      <y-progress-bar :progress="stakeProgress" :height="8" color="#FFC841"></y-progress-bar>
+      <div class="flex items-center justify-between">
+        <div class="flex flex-col">
+          <p class="text-sm leading-6 text-Grayscale-Grey-3">Start date</p>
+          <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">30/12/22</p>
+        </div>
+        <div class="flex flex-col">
+          <p class="text-sm leading-6 text-Grayscale-Grey-3">End date</p>
+          <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">30/12/22</p>
+        </div>
+      </div>
     </div>
-    <div class="w-8 bg-Secondary-Light-Blue flex flex-col justify-center items-center relative rounded-r">
-      <div
-        class="absolute hover:bg-Acsen-Yellow flex justify-center items-center bg-Primary-Blue transition-all duration-200 cursor-pointer w-[33px] h-8 -top-px -right-px rounded-tr-md"
-        @click="exit" @keyup="exit">
-        <y-tooltip top right>
-          <template #tooltip>
-            <p>Exit Position</p>
-          </template>
-          <span class="w-[33px] h-8 flex-shrink-0 flex justify-center items-center text-white"><i
-              class="yi yi-more rotate-90" style="font-size: 16px"></i></span>
-        </y-tooltip>
-      </div>
-      <div class="text-white font-bold text-lg rotate-90 flex items-center gap-2">
-        <span class="-rotate-90">
-          <i class="yi yi-flash -rotate-90 text-center align-middle animate-bounce"
-            style="font-size: 20px; color: #f9b20c"></i>
-        </span>
-        <span class="">10%</span>
-      </div>
+    <div class="w-full bg-GREY-3 border-t py-1.5 px-4 flex items-center justify-between flex-wrap">
+      <p class="text-sm leading-6 text-Grayscale-Grey-3">Current rewartd</p>
+      <p class="text-sm leading-6 text-Black-and-White-Black font-semibold">4,000 ECO</p>
     </div>
   </div>
 </template>
 <script setup>
-import { computed } from 'vue';
-import { formatAmount, formatDate } from '@/utils/helpers';
-import useStakeService from '@/services/stakeService';
+import { useYartuModal, useYartuNotify } from '@yartu/ui-kit';
+import RepeatList from '@/components/profile/RepeatList.vue';
 
 const props = defineProps({
-  tokenSymbol: {
-    type: String,
-    required: true,
-  },
-  stakePosition: {
+  stake: {
     type: Object,
     required: true,
   },
 });
 
-const stakeService = useStakeService(props.tokenSymbol);
+const yartuModal = useYartuModal();
+const yartuNotify = useYartuNotify();
 
-const lockText = computed(() => {
-  const duration = (props.stakePosition.endDate - props.stakePosition.startDate) / (60 * 60 * 24);
-  if (duration < 91) {
-    return '3 months lock';
-  }
-  if (duration < 181) {
-    return '6 months lock';
-  }
-  if (duration < 271) {
-    return '9 months lock';
-  }
-  return '12 months lock';
-});
+function acceptRestake(e) {
+  console.log('restake accepted', e);
+}
 
-const startDate = computed(() => {
-  const date = new Date(props.stakePosition.startDate * 1000);
-  return formatDate(date);
-});
-const endDate = computed(() => {
-  const date = new Date(props.stakePosition.endDate * 1000);
-  return formatDate(date);
-});
+function exitStake(e) {
+  console.log('exited stake', e);
+}
 
-const stakeProgress = computed(() => {
-  const today = Math.floor(Date.now() / 1000);
-  const duration = props.stakePosition.endDate - props.stakePosition.startDate;
-  const elapsed = today - props.stakePosition.startDate;
-  return (elapsed * 100) / duration;
-});
+function openRepeatModal() {
+  yartuModal.open(RepeatList, {
+    modal: {
+      'max-width': '25.5rem',
+      'min-width': '25.5rem',
+    },
+    component: {
+      projectName: props.stake.project_name || 'null',
+    },
+    emits: {
+      confirm: acceptRestake,
+    },
+  });
+}
+function openFinishModal() {
+  yartuNotify.dialog({
+    title: 'Are you sure?',
+    subtitle: `You will finish the stake for ${props.stake.project_name || 'null'}`,
+    type: 'danger',
+    class: 'overflow-hidden',
+    actionButtons: [
+      {
+        text: 'Quit',
+        color: '!bg-Primary-Blue hover:!bg-Hover-Primary-Blue',
+        handler: async () => {
+          exitStake();
+        },
+      },
+    ],
+  });
+}
+/* eslint-disable */
+// import { computed } from 'vue';
+// import { formatAmount, formatDate } from '@/utils/helpers';
+// import useStakeService from '@/services/stakeService';
 
-const leftTime = computed(() => {
-  const today = Math.floor(Date.now() / 1000);
-  const time = props.stakePosition.endDate - today;
+// const props = defineProps({
+//   tokenSymbol: {
+//     type: String,
+//     required: true,
+//   },
+//   stakePosition: {
+//     type: Object,
+//     required: true,
+//   },
+// });
 
-  if (time < 0) {
-    return 'Finished';
-  }
+// const stakeService = useStakeService(props.tokenSymbol);
 
-  const months = Math.floor(time / (60 * 60 * 24 * 30));
-  if (months > 0) {
-    return `${months} months left`;
-  }
+// const lockText = computed(() => {
+//   const duration = (props.stakePosition.endDate - props.stakePosition.startDate) / (60 * 60 * 24);
+//   if (duration < 91) {
+//     return '3 months lock';
+//   }
+//   if (duration < 181) {
+//     return '6 months lock';
+//   }
+//   if (duration < 271) {
+//     return '9 months lock';
+//   }
+//   return '12 months lock';
+// });
 
-  const days = Math.floor(time / (60 * 60 * 24)) % 30;
-  if (days > 0) {
-    return `${days} days left`;
-  }
+// const startDate = computed(() => {
+//   const date = new Date(props.stakePosition.startDate * 1000);
+//   return formatDate(date);
+// });
+// const endDate = computed(() => {
+//   const date = new Date(props.stakePosition.endDate * 1000);
+//   return formatDate(date);
+// });
 
-  const hours = Math.floor(time / (60 * 60)) % 24;
-  if (hours > 0) {
-    return `${hours} hours left`;
-  }
+// const stakeProgress = computed(() => {
+//   const today = Math.floor(Date.now() / 1000);
+//   const duration = props.stakePosition.endDate - props.stakePosition.startDate;
+//   const elapsed = today - props.stakePosition.startDate;
+//   return (elapsed * 100) / duration;
+// });
 
-  const minutes = Math.floor(time / 60) % 60;
-  if (minutes > 0) {
-    return `${minutes} minutes left`;
-  }
+// const leftTime = computed(() => {
+//   const today = Math.floor(Date.now() / 1000);
+//   const time = props.stakePosition.endDate - today;
 
-  return `${time % 60} seconds left`;
-});
+//   if (time < 0) {
+//     return 'Finished';
+//   }
 
-const exit = () => {
-  stakeService.exit(props.stakePosition.tokenId);
-};
+//   const months = Math.floor(time / (60 * 60 * 24 * 30));
+//   if (months > 0) {
+//     return `${months} months left`;
+//   }
+
+//   const days = Math.floor(time / (60 * 60 * 24)) % 30;
+//   if (days > 0) {
+//     return `${days} days left`;
+//   }
+
+//   const hours = Math.floor(time / (60 * 60)) % 24;
+//   if (hours > 0) {
+//     return `${hours} hours left`;
+//   }
+
+//   const minutes = Math.floor(time / 60) % 60;
+//   if (minutes > 0) {
+//     return `${minutes} minutes left`;
+//   }
+
+//   return `${time % 60} seconds left`;
+// });
+
+// const exit = () => {
+//   stakeService.exit(props.stakePosition.tokenId);
+// };
 </script>
+<style>
+.stake-card:hover .stake-card-actions {
+  display: flex !important;
+}
+</style>
