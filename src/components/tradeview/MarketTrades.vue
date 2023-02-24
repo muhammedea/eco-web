@@ -1,30 +1,36 @@
 <template>
-  <div class="px-4 py-8 flex flex-col gap-6 w-full">
-    <h3 class="text-Black-and-White-Black text-2xl leading-5 font-bold">Market Trades</h3>
-    <div class="flex flex-col gap-3">
-      <div class="grid grid-cols-3 text-Grayscale-Grey-2 text-base-leading-5 font-semibold">
-        <span class="text-left">Price ({{ pair.tokenB.symbol }})</span>
-        <span class="text-center">Amount ({{ pair.tokenA.symbol }})</span>
-        <span class="text-right">Time</span>
-      </div>
-      <div class="flex flex-col gap-2 w-full">
-        <template v-for="order in processedOrders" :key="order.order.salt">
-          <div class="grid grid-cols-3 w-full items-center py-1.5">
-              <span class="text-left leading-5" :class="{'text-Color-Code-Red': isSellOrder(order), 'text-Color-Code-Green': !isSellOrder(order)}">
-                {{ calculatePrice(order) }}
-              </span>
-              <span class="text-center leading-5 text-Grayscale-Grey-2">{{ calculateAmount(order) }}</span>
-              <span class="text-right leading-5 text-Grayscale-Grey-2">{{ formatTime(order.metaData.processTime) }}</span>
-          </div>
-        </template>
-      </div>
+  <div class="flex flex-col w-full">
+    <div class="grid grid-cols-3 text-Grayscale-Grey-2 text-base-leading-5 font-semibold px-6 py-3">
+      <span class="text-left">Price ({{ pair.tokenB.symbol }})</span>
+      <span class="text-center">Amount ({{ pair.tokenA.symbol }})</span>
+      <span class="text-right">Time</span>
+    </div>
+    <div class="flex flex-col w-full">
+      <template v-for="order in processedOrders" :key="order.order.salt">
+        <div class="grid grid-cols-3 w-full items-center odd:bg-Grayscale-Grey-6 px-6 py-3 cursor-default">
+          <span class="text-left leading-5" :class="{ 'text-Color-Code-Red': isSellOrder(order), 'text-Color-Code-Green': !isSellOrder(order) }">
+            {{ calculatePrice(order) }}
+          </span>
+          <span class="text-center leading-5 text-Grayscale-Grey-2">{{ calculateAmount(order) }}</span>
+          <span class="text-right leading-5 text-Grayscale-Grey-2">{{ formatTime(order.metaData.processTime) }}</span>
+        </div>
+      </template>
+      <template v-for="i in 10" :key="i">
+        <div class="grid grid-cols-3 w-full items-center odd:bg-Grayscale-Grey-6 px-6 py-3 cursor-default">
+          <span class="text-left leading-5" :class="{ 'text-Color-Code-Red': i % 2 === 0, 'text-Color-Code-Green': i % 2 === 1}">
+            0.000123
+          </span>
+          <span class="text-center leading-5 text-Grayscale-Grey-2">35K</span>
+          <span class="text-right leading-5 text-Grayscale-Grey-2">20:04:34</span>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 <script setup>
 import { ref } from 'vue';
-import { formatTime, formatAmount } from '@/utils/helpers';
 import { ethers } from 'ethers';
+import { formatTime, formatAmount } from '@/utils/helpers';
 
 const props = defineProps({
   pair: {
@@ -36,10 +42,12 @@ const props = defineProps({
 const processedOrders = ref([]);
 
 function fetchData() {
-  fetch(`/api/orderbook/v1/recent_trades?${new URLSearchParams({
-    baseToken: props.pair.tokenA.contractAddress,
-    quoteToken: props.pair.tokenA.contractAddress,
-  })}`)
+  fetch(
+    `/api/orderbook/v1/recent_trades?${new URLSearchParams({
+      baseToken: props.pair.tokenA.contractAddress,
+      quoteToken: props.pair.tokenA.contractAddress,
+    })}`,
+  )
     .then((response) => response.json())
     .then((responseJson) => {
       console.log(responseJson);
@@ -65,5 +73,4 @@ function calculateAmount(order) {
   const quoteAmount = isSell ? ethers.BigNumber.from(order.order.takerAmount) : ethers.BigNumber.from(order.order.makerAmount);
   return formatAmount(quoteAmount, 4);
 }
-
 </script>

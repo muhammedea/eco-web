@@ -1,14 +1,12 @@
 <template>
-  <div class="px-4 py-8 flex flex-col gap-6 w-full">
-    <h3 class="text-Black-and-White-Black text-2xl leading-5 font-bold">Order Book</h3>
-    <div class="flex flex-col gap-3">
-      <div class="grid grid-cols-3 text-Grayscale-Grey-2 text-base-leading-5 font-semibold">
+    <div class="flex flex-col w-full">
+      <div class="grid grid-cols-3 text-Grayscale-Grey-2 text-base-leading-5 font-semibold px-6 py-3">
         <span class="text-left">Price ({{ pair.tokenB.symbol }})</span>
         <span class="text-center">Sum({{ pair.tokenA.symbol }})</span>
         <span class="text-right pr-4">Sum({{ pair.tokenB.symbol }})</span>
       </div>
-      <div class="flex flex-col gap-2 w-full">
-        <OrderCard
+      <div class="flex flex-col w-full">
+        <!-- <OrderCard
           v-for="bid in bids"
           :key="bid.order.salt"
           :buy_order="false"
@@ -16,8 +14,17 @@
           cum-val_1="3,081.891K"
           :cum-val_2="formatTotalAmount(bid)"
           :bar_width="getPercentage(getTotalAmount(bid), maxTotalAmount)"
+        /> -->
+        <OrderCard
+          v-for="bid in 5"
+          :key="bid"
+          :buy_order="false"
+          :price="'0.0006909'"
+          cum-val_1="3,081.891K"
+          :cum-val_2="'929292'"
+          :bar_width="55"
         />
-        <div class="flex justify-between w-full items-center py-1">
+        <div class="flex justify-between w-full items-center py-2.5 px-6">
           <div class="flex gap-1.5 items-center text-base-leading-5">
             <span class="text-Grayscale-Grey-1">{{ asks.length > 0 ? formatPrice(asks[0]) : '0"' }}</span>
             <span class="text-Grayscale-Grey-3">~ ${{ asks.length > 0 ? formatPrice(asks[0]) : '0"' }}</span>
@@ -26,6 +33,15 @@
             <img src="@/assets/images/signal-alt.svg" alt="signal-alt" />
           </div>
         </div>
+        <OrderCard
+          v-for="bid in 5"
+          :key="bid"
+          :buy_order="true"
+          :price="'0.0006909'"
+          cum-val_1="3,081.891K"
+          :cum-val_2="'929292'"
+          :bar_width="55"
+        />
         <OrderCard
           v-for="ask in asks"
           :key="ask.order.salt"
@@ -37,13 +53,12 @@
         />
       </div>
     </div>
-  </div>
 </template>
 <script setup>
 import { ref, computed } from 'vue';
 import { ethers } from 'ethers';
 import { formatAmount, getPercentage } from '@/utils/helpers';
-import OrderCard from '../basecomponents/OrderCard.vue';
+import OrderCard from '../basecomponents/OrderBookCard.vue';
 
 const props = defineProps({
   pair: {
