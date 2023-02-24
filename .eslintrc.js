@@ -35,6 +35,8 @@ module.exports = {
         code: 600,
       },
     ],
+    'import/no-unresolved': 'off',
+    'import/extensions': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'object-curly-newline': ['error', { consistent: true }],
     'vuejs-accessibility/anchor-has-content': [
