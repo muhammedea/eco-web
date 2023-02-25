@@ -1,5 +1,5 @@
 <template>
-  <div class="stake-card w-full flex flex-col border rounded-md">
+  <div class="stake-card w-full flex flex-col border rounded-md" :class="customClass">
     <div class="w-full flex flex-col p-4 pb-3 gap-3">
       <div class="flex flex-col gap-1">
         <div class="flex justify-between items-center font-semibold">
@@ -9,7 +9,13 @@
             <p class="text-sm leading-6 text-Color-Code-Green">Finished</p>
             <y-dropdown left :classes="['!w-[98px]']">
               <template #activator="{ open }">
-                <y-button class="stake-card-actions hidden ml-2" @click="open" circle size="xs" icon="yi yi-more text-Graysacele-Grey-2"></y-button>
+                <y-button
+                  class="stake-card-actions flex lg:hidden ml-2"
+                  @click="open"
+                  circle
+                  size="xs"
+                  icon="yi yi-more text-Graysacele-Grey-2"
+                ></y-button>
               </template>
               <y-dropdown-item @click="openRepeatModal">Restake</y-dropdown-item>
               <y-dropdown-item @click="openFinishModal">Remove</y-dropdown-item>
@@ -50,6 +56,10 @@ const props = defineProps({
   stake: {
     type: Object,
     required: true,
+  },
+  customClass: {
+    type: String,
+    default: '',
   },
 });
 

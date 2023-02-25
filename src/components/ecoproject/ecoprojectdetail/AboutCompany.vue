@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-10 w-full xs:w-[333px] sticky top-24 max-h-screen pb-8 overflow-y-scroll scrollbar-hide">
+  <div class="flex flex-col gap-10 w-full lg:w-[333px] sticky top-24 max-h-screen pb-8 overflow-y-scroll scrollbar-hide">
     <div class="flex flex-col gap-6">
       <div class="flex flex-col gap-2">
         <span class="text-Black-and-White-Black text-base-leading-5 font-bold">Staking</span>
@@ -8,9 +8,9 @@
       <div class="flex flex-col gap-4">
         <span class="text-Black-and-White-Black text-base-leading-5 font-bold">My Stakes</span>
         <div v-if="stakeService.isLoading.value"></div>
-        <div v-else class="flex flex-col gap-3">
+        <div v-else class="flex gap-3 flex-wrap">
           <!-- <EcoProjectStakeCard v-for="position in stakeService.stakePositions.value" :key="position.tokenId" :stake-position="position" :token-symbol="project.token.symbol" /> -->
-          <EcoProjectStakeCard v-for="i in 5" :key="i" :stake="{}"/>
+          <EcoProjectStakeCard custom-class="w-full sm:w-1/2-gap-4 lg:w-full" v-for="i in 5" :key="i" :stake="{}"/>
           <!-- <EmptyState message="You don’t have any stake yet.<br>Please stake Ecoproject first."></EmptyState> -->
         </div>
       </div>
