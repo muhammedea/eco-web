@@ -1,5 +1,5 @@
 <template>
-  <div class="flex xl:w-62 min-w-max flex-col gap-6 px-6">
+  <div class="flex xl:w-62 min-w-max flex-col gap-6 px-6 sticky top-24">
     <button @click="router.back()" class="flex gap-2 items-center">
       <y-icon name="yi yi-chevron-left text-2xl"></y-icon>
       <p class="text-base-leading-5 text-Black-and-White-Black font-semibold">Go back</p>
