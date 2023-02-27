@@ -3,6 +3,7 @@ import DefaultView from '../views/DefaultView.vue';
 import TradeView from '../views/TradeView.vue';
 import EcoProjectView from '../views/EcoProjectView.vue';
 import EcoProjectDetailView from '../views/EcoProjectDetailView.vue';
+import EcoProjectProductionDetailView from '../views/EcoProjectProductionDetailView.vue';
 import EcoMarketView from '../views/EcoMarketView.vue';
 import ApplyScreenView from '../views/ApplyScreenView.vue';
 import ProfileView from '../views/ProfileView.vue';
@@ -27,6 +28,11 @@ const routes = [
         path: '/ecoproject/detail/:id',
         name: 'EcoProjectDetailView',
         component: EcoProjectDetailView,
+      },
+      {
+        path: '/ecoproject/detail/:id/production-details',
+        name: 'EcoProjectProductionDetailView',
+        component: EcoProjectProductionDetailView,
       },
       {
         path: '/ecomarket',
