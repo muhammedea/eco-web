@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col gap-3">
-    <button @click="router.back()" class="flex gap-2 items-center">
+    <button @click="router.back()" class="flex gap-2 items-center w-fit text-base-leading-5 text-Black-and-White-Black font-semibold hover:text-Black-and-White-Black-Opacity-50">
       <y-icon name="yi yi-chevron-left text-2xl"></y-icon>
-      <p class="text-base-leading-5 text-Black-and-White-Black font-semibold">Go back</p>
+      Go back
     </button>
     <div class="bg-white p-6 rounded-lg border flex flex-col gap-4 w-full">
       <h1 class="text-base-leading-5 font-semibold text-Black-and-White-Black">Account</h1>
