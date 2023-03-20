@@ -2,13 +2,13 @@ import { getToken } from './tokens';
 
 const projects = [
   {
-    id: 1,
+    id: 'p-ECO_ORNG_1',
     name: 'Orange renewable energy plant 001',
     totalSupply: 1_000_000,
     token: getToken('ECO_ORNG_1'),
   },
   {
-    id: 2,
+    id: 'p-ECO_ORNG_1',
     name: 'Orange renewable energy plant 002',
     totalSupply: 1_000_000,
     token: getToken('ECO_ORNG_2'),

@@ -86,8 +86,7 @@
           v-else-if="!approveStatus"
           @click="approve"
           :disabled="!web3Store.isWalletConnected"
-          class="py-[14px] text-white text-sm font-medium w-full mt-4 rounded-md transition-all duration-200"
-          :class="isSell ? 'bg-Color-Code-Red hover:bg-Color-Code-Red-Hover' : 'bg-Color-Code-Green hover:bg-Color-Code-Green-Hover'"
+          class="py-[14px] text-white text-sm font-medium w-full mt-4 rounded-md transition-all duration-200 bg-[#467595] hover:bg-[#528ab1]"
         >
           Approve {{ inputTokenSymbol }}
         </button>
