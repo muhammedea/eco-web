@@ -75,14 +75,14 @@ const useWeb3Store = defineStore('web3', {
         return false;
       }
 
-      this.provider.on('connect', async (info) => {
+      this.web3provider.on('connect', async (info) => {
         console.log('connect', info);
         this.chainId = parseInt(info.chainId, 10);
         this.isWalletConnected = true;
         this.isLoading = false;
       });
 
-      this.provider.on('accountsChanged', async (newAccounts) => {
+      this.web3provider.on('accountsChanged', async (newAccounts) => {
         // TODO: newAccounts.length == 0 olabilir
         console.log('accountsChanged', newAccounts);
         if (Array.isArray(newAccounts) === false || newAccounts.length === 0) {
@@ -91,16 +91,17 @@ const useWeb3Store = defineStore('web3', {
           // this.account = newAccounts[0];
           this.refreshConnection();
         }
+        setTimeout(() => window.location.reload(), 100);
       });
 
-      this.provider.on('chainChanged', async (chainId) => {
+      this.web3provider.on('chainChanged', async (chainId) => {
         console.log('chainChanged', chainId);
         this.chainId = parseInt(chainId, 10);
         this.isWalletConnected = true;
         window.location.reload();
       });
 
-      this.provider.on('disconnect', (a) => {
+      this.web3provider.on('disconnect', (a) => {
         console.log('disconnect', a);
         this.isWalletConnected = false;
         this.chainId = null;

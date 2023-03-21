@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-4 flex flex-col w-full">
+  <div class="pt-4 flex flex-col w-full" v-if="pair">
     <TradeViewHeader :pair="pair" />
     <div class="flex w-full lg:flex-row flex-col-reverse border-b pb-3">
       <div class="w-full lg:w-[45%] hidden sm:flex flex-row px-6 lg:border-r">
@@ -55,7 +55,7 @@
 </template>
 <script setup>
 import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
+// import { useRoute } from 'vue-router';
 import { getAllPairs } from '@/utils/pairs';
 import TradeViewHeader from '@/components/tradeview/TradeViewHeader.vue';
 import OrderBook from '@/components/tradeview/OrderBook.vue';
@@ -66,9 +66,11 @@ import BuyAndSell from '@/components/tradeview/BuyAndSell.vue';
 import TradeChart from '@/components/tradeview/TradeChart.vue';
 
 const pairs = getAllPairs();
-const route = useRoute();
-const pairId = computed(() => (route.params.pairId && parseInt(route.params.pairId, 10)) || 1);
-const pair = computed(() => pairs.find((p) => p.id === pairId.value));
+// const route = useRoute();
+// const pairId = computed(() => route.params.pairId || pairs[0]);
+const pairId = localStorage.getItem('lastPairId') || pairs[0].id;
+localStorage.setItem('lastPairId', pairId);
+const pair = computed(() => pairs.find((p) => p.id === pairId));
 
 const marketSellTab = ref(0);
 const orderBookTab = ref(0);

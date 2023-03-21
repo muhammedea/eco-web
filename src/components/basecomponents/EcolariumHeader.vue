@@ -52,8 +52,8 @@
           <div :key="responsiveDropdownTopValue" v-if="web3Store.isWalletConnected" class="navBreak:w-auto w-full flex navBreak:flex-row flex-col navBreak:items-center gap-6 navBreak:p-0 relative">
             <!-- v-if="web3Store.isWrongChain" -->
             <button
-              @click="switchNetwork"
-              v-if="false"
+              @click="openChangeNetworkDropdown"
+              v-if="selectedNetwork != 'bnb'"
               class="xs:w-fit w-full flex items-center justify-center gap-2 px-4 py-2 bg-white text-Primary-Blue text-sm rounded-md font-semibold hover:text-Acsen-Yellow transition-all duration-200 cursor-pointer"
             >
               <img class="w-6 h-6" src="@/assets/icon/danger.svg" alt="danger" />
@@ -75,21 +75,21 @@
               class="absolute min-w-max bg-white py-1 z-20 navBreak:!top-11 navBreak:left-auto navBreak:right-0 left-0 rounded-lg border flex flex-col gap-0 text-Black-and-White-Black font-medium text-base-leading-5 shadow-lg"
               :style="{ top: -responsiveDropdownTopValue + 'px' }"
             >
-              <button @click="selectedNetwork = 'eth'" class="px-4 py-2 text-Primary-Blue flex gap-2 items-center">
+              <!--<button @click="selectedNetwork = 'eth'" class="px-4 py-2 text-Primary-Blue flex gap-2 items-center">
                 <img class="w-6 h-6" src="@/assets/images/ETH.svg" alt="eth" />
                 Ethereum
                 <y-icon :name="['yi yi-check text-GREEN ml-auto', selectedNetwork === 'eth' ? 'opacity-1' : 'opacity-0']"></y-icon>
-              </button>
-              <button @click="selectedNetwork = 'bnb'" class="px-4 py-2 text-Primary-Blue flex gap-2 items-center">
+              </button>-->
+              <button @click="switchNetwork" class="px-4 py-2 text-Primary-Blue flex gap-2 items-center">
                 <img class="w-6 h-6" src="@/assets/images/BNB.svg" alt="bnb" />
                 BNB Smartchain
                 <y-icon :name="['yi yi-check text-GREEN ml-auto', selectedNetwork === 'bnb' ? 'opacity-1' : 'opacity-0']"></y-icon>
               </button>
-              <button @click="selectedNetwork = 'matic'" class="px-4 py-2 text-Primary-Blue flex gap-2 items-center">
+              <!--<button @click="selectedNetwork = 'matic'" class="px-4 py-2 text-Primary-Blue flex gap-2 items-center">
                 <img class="w-6 h-6" src="@/assets/images/MATIC.svg" alt="matic" />
                 Polygon Matic
                 <y-icon :name="['yi yi-check text-GREEN ml-auto', selectedNetwork === 'matic' ? 'opacity-1' : 'opacity-0']"></y-icon>
-              </button>
+              </button>-->
             </div>
           </div>
           <div class="navBreak:w-auto w-full flex navBreak:flex-row flex-col navBreak:items-center gap-6 navBreak:p-0 relative">
@@ -175,7 +175,7 @@
 <script setup>
 // eslint-disable-next-line
 import { onClickOutside, useClipboard } from '@vueuse/core';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useYartuNotify } from '@yartu/ui-kit';
 import useWeb3Store from '@/store/web3';
@@ -192,7 +192,7 @@ const profileDropdownController = ref(false);
 const changeNetworkDropdownController = ref(false);
 const responsiveDropdownTopValue = ref();
 
-const selectedNetwork = ref('eth');
+const selectedNetwork = computed(() => (web3Store.chainId === 97 ? 'bnb' : ''));
 
 function openResponsiveNav() {
   responsiveNav.value = true;

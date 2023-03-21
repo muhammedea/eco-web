@@ -1,5 +1,13 @@
 let allChains = [
   {
+    name: 'BSC Testnet',
+    chainId: 97,
+    isTest: true,
+    nativeCurrency: { name: 'Testnet BNB', symbol: 'BNB', decimals: 18 },
+    rpcUrls: ['https://data-seed-prebsc-2-s3.binance.org:8545'],
+    blockExplorerUrls: ['https://testnet.bscscan.com/'],
+  },
+  {
     name: 'Polygon Mumbai',
     chainId: 80001,
     isTest: true,

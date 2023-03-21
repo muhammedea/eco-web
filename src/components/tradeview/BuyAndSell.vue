@@ -24,20 +24,20 @@
     </div>
     <y-tabs v-model="tabs" class="overflow-scroll scrollbar-hide w-full">
       <y-tab title="Limit">
-        <y-input suffix class="mt-3 w-full" placeholder="0" type="number" label="Price" v-model="inputAmount">
+        <y-input suffix class="mt-3 w-full" placeholder="0" type="number" label="Price" v-model="priceInput" @update:modelValue="onPriceChange">
           <template #suffix>
             <div class="py-2">
               <span class="px-2 border-l flex justify-center items-center text-Black-and-White-Black font-bold">
-                {{ inputTokenSymbol }}
+                {{ priceTokenSymbol }}
               </span>
             </div>
           </template>
         </y-input>
-        <y-input suffix class="mt-3 w-full" placeholder="0" type="number" label="Total" v-model="outputAmount">
+        <y-input suffix class="mt-3 w-full" placeholder="0" type="number" label="Amount" v-model="amountInput" @update:modelValue="onAmountChange">
           <template #suffix>
             <div class="py-2">
               <span class="px-2 border-l flex justify-center items-center text-Black-and-White-Black font-bold">
-                {{ outputTokenSymbol }}
+                {{ baseTokenSymbol }}
               </span>
             </div>
           </template>
@@ -72,11 +72,11 @@
             100%
           </button>
         </div>
-        <y-input suffix class="w-full" placeholder="0" type="number" label="Amount">
+        <y-input suffix class="w-full" placeholder="0" type="number" label="Total" v-model="totalInput" @update:modelValue="onTotalChange">
           <template #suffix>
             <div class="py-2">
               <span class="px-2 border-l flex justify-center items-center text-Black-and-White-Black font-bold">
-                {{ inputTokenSymbol }}
+                {{ priceTokenSymbol }}
               </span>
             </div>
           </template>
@@ -88,7 +88,7 @@
           :disabled="!web3Store.isWalletConnected"
           class="py-[14px] text-white text-sm font-medium w-full mt-4 rounded-md transition-all duration-200 bg-[#467595] hover:bg-[#528ab1]"
         >
-          Approve {{ inputTokenSymbol }}
+          Approve {{ priceTokenSymbol }}
         </button>
         <button
           v-else
@@ -106,7 +106,7 @@
           <template #suffix>
             <div class="py-2">
               <span class="px-2 border-l flex justify-center items-center text-Black-and-White-Black font-bold">
-                {{ inputTokenSymbol }}
+                {{ priceTokenSymbol }}
               </span>
             </div>
           </template>
@@ -173,8 +173,9 @@ const web3Store = useWeb3Store();
 const tabs = ref(['0']);
 const limitPercentage = ref();
 const marketPercentage = ref();
-const inputAmount = ref('0');
-const outputAmount = ref('0');
+const priceInput = ref('0');
+const amountInput = ref('0');
+const totalInput = ref('0');
 const rangeSliderMax = ref(1300);
 const rangeSliderText = ref([]);
 onMounted(() => {
@@ -184,6 +185,8 @@ onMounted(() => {
   }
 });
 
+console.log('aaaa');
+console.log(props);
 const tradeService = useTradeService(props.pair);
 
 const availableInputAmountText = computed(() => {
@@ -193,8 +196,23 @@ const availableInputAmountText = computed(() => {
   return `${formatAmount(tradeService.balanceTokenB.value)} ${props.pair.tokenB.symbol}`;
 });
 
-const inputTokenSymbol = computed(() => (props.isSell ? props.pair.tokenA.symbol : props.pair.tokenB.symbol));
-const outputTokenSymbol = computed(() => (props.isSell ? props.pair.tokenB.symbol : props.pair.tokenA.symbol));
+const onPriceChange = () => {
+  amountInput.value = '0';
+  totalInput.value = '0';
+};
+const onAmountChange = () => {
+  const price = parseFloat(priceInput.value) || 0;
+  const amount = parseFloat(amountInput.value) || 0;
+  totalInput.value = (price * amount).toString();
+};
+const onTotalChange = () => {
+  const price = parseFloat(priceInput.value) || 0;
+  const total = parseFloat(totalInput.value) || 0;
+  amountInput.value = (total / price).toString();
+};
+
+const baseTokenSymbol = computed(() => props.pair.tokenA.symbol);
+const priceTokenSymbol = computed(() => props.pair.tokenB.symbol);
 const approveStatus = computed(() => (props.isSell ? tradeService.isApprovedTokenA.value : tradeService.isApprovedTokenB.value));
 
 const approve = async () => {
@@ -203,7 +221,7 @@ const approve = async () => {
 };
 
 const action = async () => {
-  const promise = props.isSell ? tradeService.createSellOrder(inputAmount.value, outputAmount.value) : tradeService.createBuyOrder(inputAmount.value, outputAmount.value);
+  const promise = props.isSell ? tradeService.createSellOrder(amountInput.value, totalInput.value) : tradeService.createBuyOrder(amountInput.value, totalInput.value);
   await promise;
 };
 </script>

@@ -3,14 +3,14 @@ import abis from '@/utils/abis';
 import { ethers } from 'ethers';
 
 const contracts = {
-  80001: {
-    ExchangeProxy: {
-      address: '0xf471d32cb40837bf24529fcf17418fc1a4807626',
-      abiName: 'ZeroEx',
+  97: {
+    OrderbookExchange: {
+      address: '0x22c041aB5D03e0bAb56b5c92a9C39e732AF3B412',
+      abiName: 'OrderbookExchange',
     },
-    ExchangeProxyFlashWallet: {
-      address: '0x64254Cf2F3AbD765BeE46f8445B76e2bB0aF5A2c',
-      abiName: 'FlashWallet',
+    OrderbookERC20Proxy: {
+      address: '0x6f6Ef558B098C652502ABA96Aab1A844eCCA492d',
+      abiName: 'OrderbookERC20Proxy',
     },
 
     // ---------- Tokens ----------
@@ -18,26 +18,26 @@ const contracts = {
       address: '0x535bc2B3654Fd04e545b57f58B847d89626a1568',
       abiName: 'ERC20',
     },
-    Token_USD: {
-      address: '0x46DA39648179376DEF71076dFC5F45171239ecEd',
+    Token_USDT: {
+      address: '0xd2aD7d10B96A811D97E8A85ad4270b4E4BcE4F79',
       abiName: 'ERC20',
     },
     Token_ECO_ORNG_1: {
-      address: '0xbE593B942715FCb68C4062024f2A9be92f429C6a',
+      address: '0x5c1592Be06b27e8407976Ced7b3Be3DdB468B2de',
       abiName: 'ERC20',
     },
     Token_ECO_ORNG_2: {
-      address: '0xEAc79A59750680b43B9AA40eA46124B1a54a0227',
+      address: '0x181aFbcCfAC705324D6fcfa51AF33B57d39F761F',
       abiName: 'ERC20',
     },
 
     // ---------- Stake Contracts ----------
     Stake_ECO_ORNG_1: {
-      address: '0x22c041aB5D03e0bAb56b5c92a9C39e732AF3B412',
+      address: '0x5EEc4ea718274F5A46FB64fdcE90d6D759725DC1',
       abiName: 'LockedStakingPositions',
     },
     Stake_ECO_ORNG_2: {
-      address: '0x1d8c8188fd1bc66DD375d2E37cbA715144d089f7',
+      address: '0xEAc79A59750680b43B9AA40eA46124B1a54a0227',
       abiName: 'LockedStakingPositions',
     },
   },

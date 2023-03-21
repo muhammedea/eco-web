@@ -2,8 +2,7 @@ import { ref, watch } from 'vue';
 import { ethers } from 'ethers';
 import useWeb3Store from '@/store/web3';
 import { getContract, getContractAddress } from '@/utils/contracts';
-import { MetamaskSubprovider } from '@0x/subproviders';
-import { LimitOrder, OrderStatus, SignatureType } from '@0x/protocol-utils';
+import { hexConcat, hexlify, splitSignature } from '@ethersproject/bytes';
 
 const cache = {};
 
@@ -40,8 +39,8 @@ export default function useTradeService(pair) {
       console.log(contractTokenA);
       isLoading.value = true;
       const promises = [
-        contractTokenA.allowance(web3Store.account, getContractAddress('ExchangeProxy')),
-        contractTokenB.allowance(web3Store.account, getContractAddress('ExchangeProxy')),
+        contractTokenA.allowance(web3Store.account, getContractAddress('OrderbookERC20Proxy')),
+        contractTokenB.allowance(web3Store.account, getContractAddress('OrderbookERC20Proxy')),
         contractTokenA.balanceOf(web3Store.account),
         contractTokenB.balanceOf(web3Store.account),
       ];
@@ -67,74 +66,132 @@ export default function useTradeService(pair) {
   }
   loadData();
 
-  async function createAndSendOrder(makerTokenAddress, takerTokenAddress, makerAssetAmount, takerAssetAmount) {
-    const orderData = {
-      chainId: web3Store.chainId,
-      verifyingContract: getContractAddress('ExchangeProxy'),
-      maker: web3Store.account,
-      taker: ethers.constants.AddressZero,
-      makerToken: makerTokenAddress,
-      takerToken: takerTokenAddress,
-      makerAmount: makerAssetAmount.toHexString(),
-      takerAmount: takerAssetAmount.toHexString(),
-      takerTokenFeeAmount: '0x00',
-      // sender: ethers.constants.AddressZero,
-      // feeRecipient: ethers.constants.AddressZero,
-      expiry: ethers.BigNumber.from(2000000000).toHexString(),
-      // pool: 0,
-      salt: ethers.BigNumber.from(Date.now()).toHexString(),
+  function hexLeftPad(input, bytesLength = 32) {
+    const hex = ethers.BigNumber.from(input).toHexString();
+    const clean = hex.substring(2);
+    const missingZeros = bytesLength * 2 - clean.length;
+    if (missingZeros > 0) {
+      return `0x${'0'.repeat(missingZeros)}${clean}`;
+    } if (missingZeros < 0) {
+      return `0x${clean.substring(Math.abs(missingZeros))}`;
+    }
+    return `0x${clean}`;
+  }
+  function getERC20AssetData(tokenAddress) {
+    const ERC20_PROXY_ID = '0xf47261b0';
+    return hexConcat([ERC20_PROXY_ID, hexLeftPad(tokenAddress)]);
+  }
+  function prepareOrderSignatureFromEoaWallet(rawSignature) {
+    // Append the signature type (eg. "0x02" for EIP712 signatures)
+    // at the end of the signature since this is what 0x expects
+    const signature = splitSignature(rawSignature);
+    return hexConcat([hexlify(signature.v), signature.r, signature.s, '0x02']);
+  }
+  async function signOrder(order, signer) {
+    const domain = {
+      name: 'Ecolarium',
+      version: '1',
+      chainId: pair.chainId.toString(10),
+      verifyingContract: getContractAddress('OrderbookExchange'),
     };
-    console.log(orderData);
-    const limitOrder = new LimitOrder(orderData);
 
-    console.log(SignatureType.EIP712);
-    const supportedProvider = new MetamaskSubprovider(web3Store.web3provider);
-    const signature = await limitOrder.getSignatureWithProviderAsync(
-      supportedProvider,
-      SignatureType.EIP712,
-    );
-    console.log(signature);
+    const types = {
+      Order: [
+        { name: 'makerAddress', type: 'address' },
+        { name: 'takerAddress', type: 'address' },
+        { name: 'feeRecipientAddress', type: 'address' },
+        { name: 'senderAddress', type: 'address' },
+        { name: 'makerAssetAmount', type: 'uint256' },
+        { name: 'takerAssetAmount', type: 'uint256' },
+        { name: 'makerFee', type: 'uint256' },
+        { name: 'takerFee', type: 'uint256' },
+        { name: 'expirationTimeSeconds', type: 'uint256' },
+        { name: 'salt', type: 'uint256' },
+        { name: 'makerAssetData', type: 'bytes' },
+        { name: 'takerAssetData', type: 'bytes' },
+        { name: 'makerFeeAssetData', type: 'bytes' },
+        { name: 'takerFeeAssetData', type: 'bytes' },
+      ],
+    };
 
-    const contractExchangeProxy = getContract('ExchangeProxy');
-    const [orderInfo, remainingFillableAmount, isValidSignature] = await contractExchangeProxy.getLimitOrderRelevantState(
-      limitOrder,
-      signature,
-    );
-    console.log('orderInfo', orderInfo);
-    console.log('remainingFillableAmount', remainingFillableAmount.toString());
-    console.log('isValidSignature', isValidSignature);
-    if (orderInfo.status === OrderStatus.Fillable && remainingFillableAmount.gt(0) && isValidSignature) {
+    // eslint-disable-next-line
+    const rawSignature = await signer._signTypedData(domain, types, order);
+    const signature = prepareOrderSignatureFromEoaWallet(rawSignature);
+    return signature;
+  }
+
+  async function createAndSendOrder(makerTokenAddress, takerTokenAddress, makerAssetAmount, takerAssetAmount) {
+    let signer;
+    if (web3Store.account) {
+      signer = web3Store.provider.getSigner();
+    } else {
+      throw new Error('No account connected');
+    }
+    const makerAmountBn = ethers.BigNumber.from(makerAssetAmount);
+    const takerAmountBn = ethers.BigNumber.from(takerAssetAmount);
+    const makerFeeBn = makerAmountBn.mul(25).div(10000);
+    const takerFeeBn = takerAmountBn.mul(25).div(10000);
+
+    const orderData = {
+      makerAddress: await signer.getAddress(),
+      takerAddress: ethers.constants.AddressZero,
+      feeRecipientAddress: '0x527aE0F5388cFE7661DdaabE6D5B2aC18658eB97',
+      senderAddress: ethers.constants.AddressZero,
+      makerAssetAmount: makerAmountBn.sub(makerFeeBn).toString(),
+      takerAssetAmount: takerAmountBn.sub(takerFeeBn).toString(),
+      makerFee: makerFeeBn.toString(),
+      takerFee: '0',
+      expirationTimeSeconds: (Math.floor(Date.now()) + (90 * 86400)).toString(),
+      salt: Date.now().toString(),
+      makerAssetData: getERC20AssetData(makerTokenAddress),
+      takerAssetData: getERC20AssetData(takerTokenAddress),
+      makerFeeAssetData: getERC20AssetData(makerTokenAddress),
+      takerFeeAssetData: '0x',
+    };
+    const signature = await signOrder(orderData, signer);
+
+    const contractExchange = getContract('OrderbookExchange');
+    const [orderStatus, orderHash, orderTakerAssetFilledAmount] = await contractExchange.getOrderInfo(orderData);
+    console.log('orderStatus', orderStatus);
+    console.log('orderTakerAssetFilledAmount', orderTakerAssetFilledAmount.toString());
+    console.log('orderHash', orderHash);
+    if (orderStatus === 3) {
       console.log('Order is fillable');
     }
 
-    fetch('/orderbook/v1/order', {
+    fetch('/api/orderbook/order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...limitOrder, signature }),
+      body: JSON.stringify({
+        pairId: pair.id,
+        ...orderData,
+        signature,
+        verifyingContract: getContractAddress('OrderbookExchange'),
+      }),
     });
   }
 
-  async function createBuyOrder(amountBuyTokenA, amountSellTokenB) {
+  async function createBuyOrder(amount, total) {
     // the amount the maker is selling of maker asset (token B)
-    const makerAssetAmount = ethers.utils.parseEther(amountSellTokenB);
+    const makerAssetAmount = ethers.utils.parseEther(total);
     // the amount the maker wants of taker asset (token A)
-    const takerAssetAmount = ethers.utils.parseEther(amountBuyTokenA);
+    const takerAssetAmount = ethers.utils.parseEther(amount);
 
     createAndSendOrder(pair.tokenB.contractAddress, pair.tokenA.contractAddress, makerAssetAmount, takerAssetAmount);
   }
 
-  async function createSellOrder(amountSellTokenA, amountBuyTokenB) {
+  async function createSellOrder(amount, total) {
     // the amount the maker is selling of maker asset (token B)
-    const makerAssetAmount = ethers.utils.parseEther(amountSellTokenA);
+    const makerAssetAmount = ethers.utils.parseEther(amount);
     // the amount the maker wants of taker asset (token A)
-    const takerAssetAmount = ethers.utils.parseEther(amountBuyTokenB);
+    const takerAssetAmount = ethers.utils.parseEther(total);
 
     createAndSendOrder(pair.tokenA.contractAddress, pair.tokenB.contractAddress, makerAssetAmount, takerAssetAmount);
   }
 
   async function approveTokenA() {
     const contractTokenA = getContract(`Token_${pair.tokenA.symbol}`);
-    const tx = await contractTokenA.approve(getContractAddress('ExchangeProxy'), ethers.constants.MaxInt256);
+    const tx = await contractTokenA.approve(getContractAddress('OrderbookERC20Proxy'), ethers.constants.MaxInt256);
     const result = await tx.wait(1);
     isApprovedTokenA.value = true;
     loadData();
@@ -142,7 +199,7 @@ export default function useTradeService(pair) {
   }
   async function approveTokenB() {
     const contractTokenB = getContract(`Token_${pair.tokenB.symbol}`);
-    const tx = await contractTokenB.approve(getContractAddress('ExchangeProxy'), ethers.constants.MaxInt256);
+    const tx = await contractTokenB.approve(getContractAddress('OrderbookERC20Proxy'), ethers.constants.MaxInt256);
     const result = await tx.wait(1);
     isApprovedTokenB.value = true;
     loadData();
