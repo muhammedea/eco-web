@@ -1,8 +1,8 @@
 <template>
-  <router-link
-    :to="{ name: 'TradeView' }"
+  <div
+    @click="changePair"
+    @keyup="changePair"
     class="flex px-4 py-2 items-center justify-between w-full cursor-pointer hover:bg-Grayscale-Grey-5 hover:shadow-sm transition-all duration-200 rounded-lg"
-    exact-active-class=""
   >
     <div class="flex gap-2 md:gap-3 w-7/12">
       <div class="flex">
@@ -42,16 +42,21 @@
       <!-- change > 0 :::: <div class="text-sm text-Grayscale-Grey-3">139.06K<span class="text-Color-Code-Green pl-2">+0.36%</span></div>-->
       <!-- change = 0 :::: <div class="text-sm text-Grayscale-Grey-3">139.06K<span class="pl-2">0%</span></div>-->
     </div>
-  </router-link>
+  </div>
 </template>
 <script setup>
 import { ref } from 'vue';
 
-defineProps({
+const props = defineProps({
   pair: {
     type: Object,
     required: true,
   },
 });
 const isFavorite = ref(false);
+
+const changePair = () => {
+  localStorage.setItem('lastPairId', props.pair.id);
+  window.location.reload();
+};
 </script>
