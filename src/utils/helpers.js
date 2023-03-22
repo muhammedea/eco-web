@@ -6,9 +6,13 @@ export function formatAmount(input, decimals = 2) {
   return `${part1}.${part2.slice(0, decimals)}`;
 }
 
-export function formatNumber(input) {
-  // TODO : implement this
-  return input.toString();
+export function formatDolar(input) {
+  console.log('formatDolar', input);
+  let val = input;
+  if (ethers.BigNumber.isBigNumber(input)) {
+    val = ethers.utils.formatEther(input);
+  }
+  return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val);
 }
 
 export function formatDate(input) {
@@ -66,7 +70,13 @@ export function formatShortDateTime(input) {
 
 export function getPercentage(partialValue, totalValue) {
   if (ethers.BigNumber.isBigNumber(partialValue) || ethers.BigNumber.isBigNumber(totalValue)) {
-    return ethers.BigNumber.from(partialValue).mul(100).div(ethers.BigNumber.from(totalValue)).toNumber();
+    if (ethers.BigNumber.from(totalValue).isZero()) {
+      return 0;
+    }
+    return ethers.BigNumber.from(partialValue).mul(10000).div(ethers.BigNumber.from(totalValue)).toNumber() / 100;
+  }
+  if (+totalValue === 0) {
+    return 0;
   }
   return (partialValue * 100) / totalValue;
 }

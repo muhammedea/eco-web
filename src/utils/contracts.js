@@ -33,11 +33,11 @@ const contracts = {
 
     // ---------- Stake Contracts ----------
     Stake_ECO_ORNG_1: {
-      address: '0x5EEc4ea718274F5A46FB64fdcE90d6D759725DC1',
+      address: '0x085235170145a47795c0ed8cC85Df89B678d6Dd3',
       abiName: 'LockedStakingPositions',
     },
     Stake_ECO_ORNG_2: {
-      address: '0xEAc79A59750680b43B9AA40eA46124B1a54a0227',
+      address: '0x95eEA907B478d972d9dd1fe81C660164ae493AfA',
       abiName: 'LockedStakingPositions',
     },
   },

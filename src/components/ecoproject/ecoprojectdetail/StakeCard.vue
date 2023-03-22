@@ -31,7 +31,7 @@ import useStakeService from '@/services/stakeService';
 
 const props = defineProps({
   projectId: {
-    type: Number,
+    type: String,
     required: true,
   },
 });
@@ -44,19 +44,19 @@ const stakeAmount = ref('0');
 const items = [
   {
     id: 90,
-    text: '3 Months',
+    text: '3 Months (%13 APR)',
   },
   {
     id: 180,
-    text: '6 Months',
+    text: '6 Months (%14 APR)',
   },
   {
     id: 270,
-    text: '9 Months',
+    text: '9 Months (%15 APR)',
   },
   {
     id: 360,
-    text: '12 Months',
+    text: '12 Months (%16 APR)',
   },
 ];
 const selectedPeriod = ref(items[0]);

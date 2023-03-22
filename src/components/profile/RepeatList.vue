@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col gap-3 p-6">
     <span class="text-Black-And-White-Black text-lg font-semibold">{{ projectName }}</span>
-    <y-radio v-model="repeatDate" :input-value="3" label="3 Month - Boost: 1.5X"></y-radio>
-    <y-radio v-model="repeatDate" :input-value="6" label="6 Month - Boost: 2X"></y-radio>
-    <y-radio v-model="repeatDate" :input-value="9" label="9 Month - Boost: 2.5X"></y-radio>
-    <y-radio v-model="repeatDate" :input-value="12" label="12 Month - Boost: 3X"></y-radio>
+    <y-radio v-model="repeatDate" :input-value="3" label="3 Month (%13 APR)"></y-radio>
+    <y-radio v-model="repeatDate" :input-value="6" label="6 Month (%14 APR)"></y-radio>
+    <y-radio v-model="repeatDate" :input-value="9" label="9 Month (%15 APR)"></y-radio>
+    <y-radio v-model="repeatDate" :input-value="12" label="12 Month (%16 APR)"></y-radio>
     <y-button primary @click="save">Confirm</y-button>
     <y-button @click="$emit('closeYartuModal')" secondary>Cancel</y-button>
   </div>

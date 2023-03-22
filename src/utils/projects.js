@@ -20,5 +20,5 @@ export function getAllProjects() {
 }
 
 export function getProjectById(id) {
-  return projects.find((p) => p.id === parseInt(id, 10));
+  return projects.find((p) => p.id === id);
 }

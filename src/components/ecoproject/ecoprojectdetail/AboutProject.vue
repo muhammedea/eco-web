@@ -17,7 +17,7 @@
         Production details
       </router-link>
     </div>
-    <StakeWidget></StakeWidget>
+    <StakeWidget :tokenSymbol="project.token.symbol"></StakeWidget>
     <div class="flex flex-col gap-5 text-justify">
       <div class="flex flex-col gap-1">
         <h1 class="text-Black-and-White-Black text-xl leading-5 font-bold">About Project</h1>
@@ -306,7 +306,7 @@ import StakeWidget from '@/components/ecoproject/ecoprojectdetail/StakeWidget.vu
 
 const props = defineProps({
   id: {
-    type: Number,
+    type: String,
     required: true,
   },
 });

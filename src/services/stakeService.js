@@ -16,7 +16,10 @@ export default function useStakeService(tokenSymbol) {
   const error = ref(null);
   const isTokenApproved = ref(false);
   const walletBalance = ref(ethers.BigNumber.from(0));
-  const totalStakedBalance = ref(ethers.BigNumber.from(0));
+  const totalStaked = ref(ethers.BigNumber.from(0));
+  const maxStakeAmount = ref(ethers.BigNumber.from(0));
+  const userStakeAmount = ref(ethers.BigNumber.from(0));
+  const userTotalReward = ref(ethers.BigNumber.from(0));
   const stakePositions = ref([]);
 
   const web3Store = useWeb3Store();
@@ -38,32 +41,45 @@ export default function useStakeService(tokenSymbol) {
         contractToken.allowance(web3Store.account, getContractAddress(`Stake_${tokenSymbol}`)),
         contractToken.balanceOf(web3Store.account),
         contractStake.balanceOf(web3Store.account),
+        contractStake.totalStaked(),
+        contractStake.maxStakeAmount(),
       ];
       Promise.all(promises)
-        .then(([allowanceToken, balanceResultToken, stakePositionCount]) => {
+        .then(([allowanceToken, balanceResultToken, stakePositionCount, totalStakedResult, maxStakeAmountResult]) => {
           console.log(allowanceToken.gt(0));
           console.log(balanceResultToken);
           console.log(stakePositionCount);
           isTokenApproved.value = allowanceToken.gt(0);
           walletBalance.value = balanceResultToken;
+          totalStaked.value = totalStakedResult;
+          maxStakeAmount.value = maxStakeAmountResult;
           return Promise.all(
             [...Array(stakePositionCount.toNumber()).keys()]
-              .map((index) => contractStake.getPositionInfoByIndex(web3Store.account, index)),
+              .map((index) => contractStake.getTokenInfoByIndex(web3Store.account, index)),
           );
         })
         .then((stakePositionsResult) => {
           console.log(stakePositionsResult);
           stakePositions.value = stakePositionsResult.map((p) => ({
             tokenId: p.tokenId,
+            status: p.info.status,
+            autoRestake: p.info.autoRestake,
+            dayCount: p.info.dayCount,
             startDate: p.info.startDate,
             endDate: p.info.endDate,
-            boost: p.info.boost,
-            refAccount: p.info.refAccount,
+            minPeriodId: p.info.minPeriodId,
             amount: p.info.amount,
-            rewardPerTokenStart: p.info.rewardPerTokenStart,
-            boostedShare: p.boostedShare,
             earnedReward: p.earnedReward,
           }));
+          console.log(stakePositions.value);
+          userStakeAmount.value = stakePositionsResult.reduce(
+            (accumulator, currentValue) => accumulator.add(currentValue.info.amount),
+            ethers.BigNumber.from(0),
+          );
+          userTotalReward.value = stakePositionsResult.reduce(
+            (accumulator, currentValue) => accumulator.add(currentValue.earnedReward),
+            ethers.BigNumber.from(0),
+          );
           console.log('isLoading.value = false');
           isLoading.value = false;
           error.value = null;
@@ -80,23 +96,23 @@ export default function useStakeService(tokenSymbol) {
   async function stake(amount, dayCount) {
     const contractStake = getContract(`Stake_${tokenSymbol}`);
     const amountBn = ethers.utils.parseEther(amount);
-    const tx = await contractStake.stake(amountBn, dayCount, '');
+    const tx = await contractStake.stake(amountBn, dayCount, false);
     const result = await tx.wait(1);
     loadData();
     return result;
   }
 
-  async function restake(tokenId, withReward) {
+  async function restake(tokenId, dayCount) {
     const contractStake = getContract(`Stake_${tokenSymbol}`);
-    const tx = await contractStake.restake(tokenId, withReward, 90);
+    const tx = await contractStake.restake(tokenId, dayCount);
     const result = await tx.wait(1);
     loadData();
     return result;
   }
 
-  async function exit(tokenId) {
+  async function unstake(tokenId) {
     const contractStake = getContract(`Stake_${tokenSymbol}`);
-    const tx = await contractStake.exit(tokenId);
+    const tx = await contractStake.unstake(tokenId);
     const result = await tx.wait(1);
     loadData();
     return result;
@@ -125,11 +141,14 @@ export default function useStakeService(tokenSymbol) {
     error,
     isTokenApproved,
     walletBalance,
-    totalStakedBalance,
+    totalStaked,
+    maxStakeAmount,
+    userStakeAmount,
+    userTotalReward,
     stakePositions,
     stake,
     restake,
-    exit,
+    unstake,
     approveToken,
     loadData,
   };
