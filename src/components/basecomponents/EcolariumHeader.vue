@@ -66,7 +66,7 @@
                 <img v-if="selectedNetwork === 'bnb'" class="w-6 h-6" src="@/assets/images/BNB.svg" alt="eth" />
                 <img v-if="selectedNetwork === 'matic'" class="w-6 h-6" src="@/assets/images/MATIC.svg" alt="eth" />
               </span>
-              {{ selectedNetwork === 'eth' ? 'Ethereum' : selectedNetwork === 'bnb' ? 'BNB Smartchain' : selectedNetwork === 'matic' ? 'Polygon Matic' : '' }}
+              {{ selectedNetwork === 'eth' ? 'Ethereum' : selectedNetwork === 'bnb' ? 'BSC Testnet' : selectedNetwork === 'matic' ? 'Polygon Matic' : '' }}
               <y-icon name="yi yi-chevron-down text-xl text-Primary-Blue ml-auto"></y-icon>
             </button>
             <div
@@ -82,7 +82,7 @@
               </button>-->
               <button @click="switchNetwork" class="px-4 py-2 text-Primary-Blue flex gap-2 items-center">
                 <img class="w-6 h-6" src="@/assets/images/BNB.svg" alt="bnb" />
-                BNB Smartchain
+                BSC Testnet
                 <y-icon :name="['yi yi-check text-GREEN ml-auto', selectedNetwork === 'bnb' ? 'opacity-1' : 'opacity-0']"></y-icon>
               </button>
               <!--<button @click="selectedNetwork = 'matic'" class="px-4 py-2 text-Primary-Blue flex gap-2 items-center">
@@ -142,18 +142,18 @@
                 <p class="text-sm leading-6 text-Grayscale-Grey-3">BALANCE</p>
                 <div class="flex items-center gap-3 justify-center">
                   <div class="flex flex-col gap-2 items-center justify-center">
-                    <span class="text-2xl font-bold text-Black-and-White-Black"> 0.00001 </span>
+                    <span class="text-2xl font-bold text-Black-and-White-Black">{{ formatAmount(ecoBalance) }}</span>
                     <div class="flex items-center gap-2 text-sm leading-6 text-Grayscale-Grey-3">
                       <img class="w-5 h-5" src="@/assets/images/ETH.svg" alt="" />
-                      ETH
+                      ECO
                     </div>
                   </div>
                   <div class="w-px h-16 bg-BORDER"></div>
                   <div class="flex flex-col gap-2 items-center justify-center">
-                    <span class="text-2xl font-bold text-Black-and-White-Black"> 0.00001 </span>
+                    <span class="text-2xl font-bold text-Black-and-White-Black">{{ formatAmount(nativeBalance) }}</span>
                     <div class="flex items-center gap-2 text-sm leading-6 text-Grayscale-Grey-3">
-                      <img class="w-5 h-5" src="@/assets/images/MATIC.svg" alt="" />
-                      MATIC
+                      <img class="w-5 h-5" src="@/assets/images/BNB.svg" alt="" />
+                      BNB
                     </div>
                   </div>
                 </div>
@@ -179,6 +179,9 @@ import { ref, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useYartuNotify } from '@yartu/ui-kit';
 import useWeb3Store from '@/store/web3';
+import { ethers } from 'ethers';
+import { formatAmount } from '@/utils/helpers';
+import { getContract } from '@/utils/contracts';
 
 const yartuNotify = useYartuNotify();
 const route = useRoute();
@@ -191,6 +194,20 @@ const changeNetworkDropdownMenu = ref();
 const profileDropdownController = ref(false);
 const changeNetworkDropdownController = ref(false);
 const responsiveDropdownTopValue = ref();
+const nativeBalance = ref(ethers.BigNumber.from(0));
+const ecoBalance = ref(ethers.BigNumber.from(0));
+
+watch(() => (web3Store.account && web3Store.provider), (provider) => {
+  if (provider) {
+    provider.getBalance(web3Store.account).then((result) => {
+      nativeBalance.value = result;
+    });
+    const ecoContract = getContract('Token_ECO');
+    ecoContract.balanceOf(web3Store.account).then((result) => {
+      ecoBalance.value = result;
+    });
+  }
+});
 
 const selectedNetwork = computed(() => (web3Store.chainId === 97 ? 'bnb' : ''));
 

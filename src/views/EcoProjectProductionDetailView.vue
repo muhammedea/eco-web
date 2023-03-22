@@ -124,13 +124,16 @@
       </div>
     </div>
     <div class="w-full h-[524px] border rounded-xl flex items-center justify-center">
-        <span class="text-[120px] font-bold text-Acsen-Yellow">CHART</span>
+        <span class="text-[120px] font-bold text-Acsen-Yellow">
+          <ProductionChart></ProductionChart>
+        </span>
     </div>
   </div>
 </template>
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import ProductionChart from '@/components/ecoproject/ecoprojectdetail/ProductionChart.vue';
 
 const router = useRouter();
 

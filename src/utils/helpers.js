@@ -1,6 +1,9 @@
 import { ethers } from 'ethers';
 
 export function formatAmount(input, decimals = 2) {
+  if (!input) {
+    return '0';
+  }
   const value = ethers.utils.formatEther(input);
   const [part1, part2] = value.split('.');
   return `${part1}.${part2.slice(0, decimals)}`;

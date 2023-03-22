@@ -58,12 +58,15 @@
       <div class="w-full h-px bg-BORDER"></div>
     </div>
 
-    <StakeSection v-for="i in 3" :key="i"></StakeSection>
+    <StakeSection v-for="project in projects" :key="project.id" :project="project"></StakeSection>
   </div>
 </template>
 <script setup>
 import { ref } from 'vue';
 import StakeSection from '@/components/profile/StakeSection.vue';
+import { getAllProjects } from '@/utils/projects';
+
+const projects = getAllProjects();
 
 const selectionSort = ref('project');
 const selectionOrderBy = ref('a_z');

@@ -35,37 +35,57 @@
         <p class="text-sm leading-6 text-Grayscale-Grey-3">BALANCE</p>
         <div class="flex items-center gap-3 justify-center w-full">
           <div class="flex flex-col gap-2 items-center justify-center w-full">
-            <span class="text-2xl font-bold text-Black-and-White-Black"> 0.00001 </span>
+            <span class="text-2xl font-bold text-Black-and-White-Black">{{ formatAmount(ecoBalance) }}</span>
             <div class="flex items-center gap-2 text-sm leading-6 text-Grayscale-Grey-3">
               <img class="w-5 h-5" src="@/assets/images/ETH.svg" alt="" />
-              ETH
+              ECO
             </div>
           </div>
           <div class="w-px h-16 bg-BORDER"></div>
           <div class="flex flex-col gap-2 items-center justify-center w-full">
-            <span class="text-2xl font-bold text-Black-and-White-Black"> 0.00001 </span>
+            <span class="text-2xl font-bold text-Black-and-White-Black">{{ formatAmount(nativeBalance) }}</span>
             <div class="flex items-center gap-2 text-sm leading-6 text-Grayscale-Grey-3">
-              <img class="w-5 h-5" src="@/assets/images/MATIC.svg" alt="" />
-              MATIC
+              <img class="w-5 h-5" src="@/assets/images/BNB.svg" alt="" />
+              BNB
             </div>
           </div>
         </div>
       </div>
     </div>
-    <TokenCard></TokenCard>
+    <TokenCard token-symbol="ECO_ORNG_1"></TokenCard>
+    <TokenCard token-symbol="ECO_ORNG_2"></TokenCard>
   </div>
 </template>
 <script setup>
+import { ref, watch } from 'vue';
 import { useClipboard } from '@vueuse/core';
 import { useYartuNotify } from '@yartu/ui-kit';
 import { useRouter } from 'vue-router';
 import useWeb3Store from '@/store/web3';
+import { formatAmount } from '@/utils/helpers';
+import { getContract } from '@/utils/contracts';
+import { ethers } from 'ethers';
 import TokenCard from './TokenCard.vue';
 
 const { copy, copied } = useClipboard();
 const web3Store = useWeb3Store();
 const yartuNotify = useYartuNotify();
 const router = useRouter();
+const nativeBalance = ref(ethers.BigNumber.from(0));
+const ecoBalance = ref(ethers.BigNumber.from(0));
+
+watch(() => (web3Store.account && web3Store.provider), (provider) => {
+  if (provider) {
+    provider.getBalance(web3Store.account).then((result) => {
+      nativeBalance.value = result;
+    });
+    const ecoContract = getContract('Token_ECO');
+    ecoContract.balanceOf(web3Store.account).then((result) => {
+      console.log('Token_ECO', result);
+      ecoBalance.value = result;
+    });
+  }
+});
 
 async function copyWallet() {
   await copy(web3Store.account);
