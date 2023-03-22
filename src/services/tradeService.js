@@ -20,6 +20,7 @@ export default function useTradeService(pair) {
   const isApprovedTokenB = ref(false);
   const balanceTokenA = ref(ethers.BigNumber.from(0));
   const balanceTokenB = ref(ethers.BigNumber.from(0));
+  const currentPrice = ref('1.0');
 
   const web3Store = useWeb3Store();
 
@@ -224,6 +225,7 @@ export default function useTradeService(pair) {
     createSellOrder,
     approveTokenA,
     approveTokenB,
+    currentPrice,
     loadData,
   };
   cache[`pair_${pair.id}`] = service;

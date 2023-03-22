@@ -17,8 +17,8 @@
         />
         <div class="flex justify-between w-full items-center py-2.5 px-6">
           <div class="flex gap-1.5 items-center text-base-leading-5">
-            <span class="text-Grayscale-Grey-1">{{ currentPrice }}</span>
-            <span class="text-Grayscale-Grey-3">~ ${{ currentPrice }}</span>
+            <span class="text-Grayscale-Grey-1">{{ tradeService.currentPrice.value }}</span>
+            <span class="text-Grayscale-Grey-3">~ ${{ tradeService.currentPrice.value }}</span>
           </div>
           <div class="w-6 h-6">
             <img src="@/assets/images/signal-alt.svg" alt="signal-alt" />
@@ -38,7 +38,8 @@
 </template>
 <script setup>
 import { ref, computed } from 'vue';
-import { getPercentage } from '@/utils/helpers';
+import { getPercentage, formatDolar } from '@/utils/helpers';
+import useTradeService from '@/services/tradeService';
 import OrderCard from '../basecomponents/OrderBookCard.vue';
 
 const props = defineProps({
@@ -50,7 +51,7 @@ const props = defineProps({
 
 const buyOrders = ref([]);
 const sellOrders = ref([]);
-const currentPrice = ref('');
+const tradeService = useTradeService(props.pair);
 
 function printPrice(input) {
   return parseFloat(input).toFixed(6);
@@ -91,7 +92,7 @@ function fetchData() {
       console.log(responseJson);
       buyOrders.value = responseJson.buyOrders.sort(sorter);
       sellOrders.value = responseJson.sellOrders.sort(sorter);
-      currentPrice.value = responseJson.price;
+      tradeService.currentPrice.value = formatDolar(parseFloat(responseJson.price).toString(), 6);
     });
 }
 fetchData();

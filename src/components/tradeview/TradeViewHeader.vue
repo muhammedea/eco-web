@@ -31,10 +31,10 @@
     </div>
     <div class="flex flex-col gap-1">
       <div class="flex items-center gap-2.5 text-base-leading-5 font-semibold">
-        <span class="text-Black-and-White-Black">{{ data.currentPriice }}</span>
+        <span class="text-Black-and-White-Black">{{ tradeService.currentPrice.value }}</span>
         <span class="text-green-500">+0.5%</span>
       </div>
-      <span class="text-Grayscale-Grey-2 text-sm font-normal">$ {{ data.currentPriice }}</span>
+      <span class="text-Grayscale-Grey-2 text-sm font-normal">$ {{ tradeService.currentPrice.value }}</span>
     </div>
     <div class="lg:flex flex-col gap-1">
       <span class="text-Grayscale-Grey-2 text-sm font-normal">24 High</span>
@@ -53,6 +53,7 @@
 </template>
 <script setup>
 import { ref, reactive } from 'vue';
+import useTradeService from '@/services/tradeService';
 import ChangeToken from './ChangeToken.vue';
 // eslint-disable-next-line
 import { onClickOutside } from '@vueuse/core';
@@ -64,11 +65,12 @@ const props = defineProps({
   },
 });
 
+const tradeService = useTradeService(props.pair);
+
 const data = reactive({
-  currentPriice: '1',
-  lowest24hour: '1',
-  highest24hour: '1',
-  volume24hour: '1',
+  lowest24hour: '0.965',
+  highest24hour: '1.09',
+  volume24hour: '12566.50',
 });
 
 const isFavorite = ref(false);

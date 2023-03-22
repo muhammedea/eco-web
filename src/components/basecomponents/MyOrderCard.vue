@@ -15,7 +15,7 @@
 <script setup>
 import { computed } from 'vue';
 import { ethers } from 'ethers';
-import { formatShortDateTime } from '../../utils/helpers';
+import { formatShortDateTime, formatDolar } from '../../utils/helpers';
 
 const props = defineProps({
   pair: {
@@ -40,7 +40,7 @@ const amount = computed(() => {
 const totalPrice = computed(() => {
   const a = parseFloat(amount.value);
   const p = parseFloat(props.order.price);
-  return (a * p).toString();
+  return formatDolar((a * p).toString(), 6);
 });
 const filledAmount = computed(() => {
   const a = props.order.orderTakerAssetFilledAmount;

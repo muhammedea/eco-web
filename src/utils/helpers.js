@@ -9,13 +9,13 @@ export function formatAmount(input, decimals = 2) {
   return `${part1}.${part2.slice(0, decimals)}`;
 }
 
-export function formatDolar(input) {
+export function formatDolar(input, decimals = 2) {
   console.log('formatDolar', input);
   let val = input;
   if (ethers.BigNumber.isBigNumber(input)) {
     val = ethers.utils.formatEther(input);
   }
-  return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val);
+  return new Intl.NumberFormat('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(val);
 }
 
 export function formatDate(input) {
