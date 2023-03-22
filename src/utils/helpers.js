@@ -42,6 +42,28 @@ export function formatTime(input) {
   return `${hh}:${mm}.${ss}`;
 }
 
+export function formatShortDateTime(input) {
+  let date = input;
+  if (typeof input === 'string') {
+    date = new Date(input);
+  }
+
+  let MM = date.getMonth() + 1;
+  let dd = date.getDate();
+  let hh = date.getHours();
+  let mm = date.getMinutes();
+  let ss = date.getSeconds();
+
+  if (hh < 10) hh = `0${hh}`;
+  if (mm < 10) mm = `0${mm}`;
+  if (ss < 10) ss = `0${ss}`;
+
+  if (dd < 10) dd = `0${dd}`;
+  if (MM < 10) MM = `0${MM}`;
+
+  return `${MM}-${dd} ${hh}:${mm}`;
+}
+
 export function getPercentage(partialValue, totalValue) {
   if (ethers.BigNumber.isBigNumber(partialValue) || ethers.BigNumber.isBigNumber(totalValue)) {
     return ethers.BigNumber.from(partialValue).mul(100).div(ethers.BigNumber.from(totalValue)).toNumber();

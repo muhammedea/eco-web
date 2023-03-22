@@ -28,10 +28,10 @@
       <div class="w-full lg:w-3/5 lg:border-r relative">
         <y-tabs v-model="myOrderTab" class="order-book-tabs">
           <y-tab title="My Order" class="overflow-x-scroll">
-            <MyOrderList />
+            <MyOrderList :pair="pair" />
           </y-tab>
           <y-tab title="Trade History" class="overflow-x-scroll">
-            <TradeHistory />
+            <TradeHistory :pair="pair" />
           </y-tab>
         </y-tabs>
         <button v-if="myOrderTab === 0" class="hidden sm:flex text-base-leading-5 text-Color-Code-Red font-bold absolute top-4 right-6">Cancel All</button>

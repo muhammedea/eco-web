@@ -32,11 +32,9 @@ export default function useTradeService(pair) {
       return;
     }
     if (!isLoading.value) {
-      console.log(web3Store.provider);
       const contractTokenA = getContract(`Token_${pair.tokenA.symbol}`);
       const contractTokenB = getContract(`Token_${pair.tokenB.symbol}`);
 
-      console.log(contractTokenA);
       isLoading.value = true;
       const promises = [
         contractTokenA.allowance(web3Store.account, getContractAddress('OrderbookERC20Proxy')),

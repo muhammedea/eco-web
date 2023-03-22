@@ -1,16 +1,41 @@
 <template>
   <div :class="containerClass">
-    {{ status === 1 ? 'Partially filled' : status === 2 ? 'Filled' : 'Canceled' }}
+    {{ statusText }}
   </div>
 </template>
 <script setup>
 import { computed } from 'vue';
 
 const props = defineProps({
-  status: {
+  orderStatus: {
     type: Number,
     required: true,
   },
+  orderFilledAmount: {
+    type: Number,
+    required: true,
+  },
+});
+/*
+  Invalid: 0,
+  InvalidMakerAssetAmount: 1,
+  InvalidTakerAssetAmount: 2,
+  Fillable: 3,
+  Expired: 4,
+  FullyFilled: 5,
+  Cancelled: 6,
+*/
+const statusText = computed(() => {
+  if (props.orderStatus === 5) {
+    return 'Filled';
+  }
+  if (props.orderFilledAmount > 0) {
+    return 'Partially Filled';
+  }
+  if (props.orderStatus === 6) {
+    return 'Canceled';
+  }
+  return 'Expired';
 });
 const containerClass = computed(() => [
   'flex',
@@ -22,9 +47,10 @@ const containerClass = computed(() => [
   'max-w-fit min-w-max',
   'rounded-full',
   {
-    'bg-[#D7D9DF] text-Grayscale-Grey-2': props.status === 1, // Partially filled
-    'bg-[#D6F3D3] text-Color-Code-Green': props.status === 2, // Filled
-    'bg-[#F8D3D3] text-Color-Code-Red': props.status === 3, // Canceled
+    'bg-[#D6F3D3] text-Color-Code-Green': props.orderStatus === 5, // Filled
+    'bg-[#D7D9DF] text-Grayscale-Grey-2': props.orderStatus !== 5 && props.orderFilledAmount > 0, // Partially filled
+    'bg-[#D7D9DE] text-Grayscale-Grey-2': props.orderStatus === 4 && props.orderFilledAmount === 0, // Expired
+    'bg-[#F8D3D3] text-Color-Code-Red': props.orderStatus === 6 && props.orderFilledAmount === 0, // Canceled
   },
 ]);
 </script>
