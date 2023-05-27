@@ -15,6 +15,7 @@
 <script setup>
 import { computed } from 'vue';
 import { ethers } from 'ethers';
+import config from '@/config';
 import { formatShortDateTime, formatDolar } from '../../utils/helpers';
 
 const props = defineProps({
@@ -51,7 +52,7 @@ const cancelOrder = () => {
   // eslint-disable-next-line
   const r = confirm('Are yousure?');
   if (r) {
-    fetch('/api/orderbook/cancel', {
+    fetch(`${config.API_URL}/cancel`, {
       method: 'POST',
       body: JSON.stringify({ orderHash: props.order.orderHash }),
       headers: {

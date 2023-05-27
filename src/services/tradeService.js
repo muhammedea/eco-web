@@ -2,7 +2,11 @@ import { ref, watch } from 'vue';
 import { ethers } from 'ethers';
 import useWeb3Store from '@/store/web3';
 import { getContract, getContractAddress } from '@/utils/contracts';
-import { hexConcat, hexlify, splitSignature } from '@ethersproject/bytes';
+import config from '@/config';
+import { createLoadingContext } from '@/services/loadingDialogService';
+import * as DialogService from '@/services/dialogService';
+import { handleTransaction } from '@/utils/helpers';
+import { getERC20AssetData, signOrder } from '@/utils/orderUtils';
 
 const cache = {};
 
@@ -65,109 +69,70 @@ export default function useTradeService(pair) {
   }
   loadData();
 
-  function hexLeftPad(input, bytesLength = 32) {
-    const hex = ethers.BigNumber.from(input).toHexString();
-    const clean = hex.substring(2);
-    const missingZeros = bytesLength * 2 - clean.length;
-    if (missingZeros > 0) {
-      return `0x${'0'.repeat(missingZeros)}${clean}`;
-    } if (missingZeros < 0) {
-      return `0x${clean.substring(Math.abs(missingZeros))}`;
-    }
-    return `0x${clean}`;
-  }
-  function getERC20AssetData(tokenAddress) {
-    const ERC20_PROXY_ID = '0xf47261b0';
-    return hexConcat([ERC20_PROXY_ID, hexLeftPad(tokenAddress)]);
-  }
-  function prepareOrderSignatureFromEoaWallet(rawSignature) {
-    // Append the signature type (eg. "0x02" for EIP712 signatures)
-    // at the end of the signature since this is what 0x expects
-    const signature = splitSignature(rawSignature);
-    return hexConcat([hexlify(signature.v), signature.r, signature.s, '0x02']);
-  }
-  async function signOrder(order, signer) {
-    const domain = {
-      name: 'Ecolarium',
-      version: '1',
-      chainId: pair.chainId.toString(10),
-      verifyingContract: getContractAddress('OrderbookExchange'),
-    };
-
-    const types = {
-      Order: [
-        { name: 'makerAddress', type: 'address' },
-        { name: 'takerAddress', type: 'address' },
-        { name: 'feeRecipientAddress', type: 'address' },
-        { name: 'senderAddress', type: 'address' },
-        { name: 'makerAssetAmount', type: 'uint256' },
-        { name: 'takerAssetAmount', type: 'uint256' },
-        { name: 'makerFee', type: 'uint256' },
-        { name: 'takerFee', type: 'uint256' },
-        { name: 'expirationTimeSeconds', type: 'uint256' },
-        { name: 'salt', type: 'uint256' },
-        { name: 'makerAssetData', type: 'bytes' },
-        { name: 'takerAssetData', type: 'bytes' },
-        { name: 'makerFeeAssetData', type: 'bytes' },
-        { name: 'takerFeeAssetData', type: 'bytes' },
-      ],
-    };
-
-    // eslint-disable-next-line
-    const rawSignature = await signer._signTypedData(domain, types, order);
-    const signature = prepareOrderSignatureFromEoaWallet(rawSignature);
-    return signature;
-  }
-
   async function createAndSendOrder(makerTokenAddress, takerTokenAddress, makerAssetAmount, takerAssetAmount) {
     let signer;
     if (web3Store.account) {
       signer = web3Store.provider.getSigner();
     } else {
-      throw new Error('No account connected');
-    }
-    const makerAmountBn = ethers.BigNumber.from(makerAssetAmount);
-    const takerAmountBn = ethers.BigNumber.from(takerAssetAmount);
-    const makerFeeBn = makerAmountBn.mul(25).div(10000);
-    const takerFeeBn = takerAmountBn.mul(25).div(10000);
-
-    const orderData = {
-      makerAddress: await signer.getAddress(),
-      takerAddress: ethers.constants.AddressZero,
-      feeRecipientAddress: '0x527aE0F5388cFE7661DdaabE6D5B2aC18658eB97',
-      senderAddress: ethers.constants.AddressZero,
-      makerAssetAmount: makerAmountBn.sub(makerFeeBn).toString(),
-      takerAssetAmount: takerAmountBn.sub(takerFeeBn).toString(),
-      makerFee: makerFeeBn.toString(),
-      takerFee: '0',
-      expirationTimeSeconds: (Math.floor(Date.now()) + (90 * 86400)).toString(),
-      salt: Date.now().toString(),
-      makerAssetData: getERC20AssetData(makerTokenAddress),
-      takerAssetData: getERC20AssetData(takerTokenAddress),
-      makerFeeAssetData: getERC20AssetData(makerTokenAddress),
-      takerFeeAssetData: '0x',
-    };
-    const signature = await signOrder(orderData, signer);
-
-    const contractExchange = getContract('OrderbookExchange');
-    const [orderStatus, orderHash, orderTakerAssetFilledAmount] = await contractExchange.getOrderInfo(orderData);
-    console.log('orderStatus', orderStatus);
-    console.log('orderTakerAssetFilledAmount', orderTakerAssetFilledAmount.toString());
-    console.log('orderHash', orderHash);
-    if (orderStatus === 3) {
-      console.log('Order is fillable');
+      throw new Error('NO_ACCOUNT');
     }
 
-    fetch('/api/orderbook/order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        pairId: pair.id,
-        ...orderData,
-        signature,
-        verifyingContract: getContractAddress('OrderbookExchange'),
-      }),
-    });
+    let result = null;
+    const loadingContext = createLoadingContext('Waiting for signature...', 'Please sign the order. This will not trigger a blockchain transaction or cost any gas fees.');
+    try {
+      const makerAmountBn = ethers.BigNumber.from(makerAssetAmount);
+      const takerAmountBn = ethers.BigNumber.from(takerAssetAmount);
+      const makerFeeBn = makerAmountBn.mul(20).div(10000);
+      const takerFeeBn = takerAmountBn.mul(20).div(10000);
+
+      const orderData = {
+        makerAddress: await signer.getAddress(),
+        takerAddress: ethers.constants.AddressZero,
+        feeRecipientAddress: '0x527aE0F5388cFE7661DdaabE6D5B2aC18658eB97',
+        senderAddress: ethers.constants.AddressZero,
+        makerAssetAmount: makerAmountBn.sub(makerFeeBn).toString(),
+        takerAssetAmount: takerAmountBn.sub(takerFeeBn).toString(),
+        makerFee: makerFeeBn.toString(),
+        takerFee: takerFeeBn.toString(),
+        expirationTimeSeconds: (Math.floor(Date.now() / 1000) + (90 * 86400)).toString(),
+        salt: Date.now().toString(),
+        makerAssetData: getERC20AssetData(makerTokenAddress),
+        takerAssetData: getERC20AssetData(takerTokenAddress),
+        makerFeeAssetData: getERC20AssetData(makerTokenAddress),
+        takerFeeAssetData: getERC20AssetData(takerTokenAddress),
+      };
+      const signature = await signOrder(orderData, signer, pair.chainId);
+
+      loadingContext.setTitle('Submitting Order...');
+      loadingContext.setDescription('');
+
+      const contractExchange = getContract('OrderbookExchange');
+      const [orderStatus/* orderHash, orderTakerAssetFilledAmount */] = await contractExchange.getOrderInfo(orderData);
+      console.log('orderStatus', orderStatus);
+      if (orderStatus === 3) {
+        console.log('Order is fillable');
+      }
+
+      result = await fetch(`${config.API_URL}/orderbook/order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          pairId: pair.id,
+          ...orderData,
+          signature,
+          verifyingContract: getContractAddress('OrderbookExchange'),
+        }),
+      });
+      DialogService.successToast('Order Submitted.');
+    } catch (e) {
+      debugger;
+      console.log({ e });
+      DialogService.error('Submitting order failed. Please try again later.');
+    } finally {
+      loadingContext.destroy();
+    }
+    loadData();
+    return result;
   }
 
   async function createBuyOrder(amount, total) {
@@ -176,7 +141,7 @@ export default function useTradeService(pair) {
     // the amount the maker wants of taker asset (token A)
     const takerAssetAmount = ethers.utils.parseEther(amount);
 
-    createAndSendOrder(pair.tokenB.contractAddress, pair.tokenA.contractAddress, makerAssetAmount, takerAssetAmount);
+    return createAndSendOrder(pair.tokenB.contractAddress, pair.tokenA.contractAddress, makerAssetAmount, takerAssetAmount);
   }
 
   async function createSellOrder(amount, total) {
@@ -185,23 +150,93 @@ export default function useTradeService(pair) {
     // the amount the maker wants of taker asset (token A)
     const takerAssetAmount = ethers.utils.parseEther(total);
 
-    createAndSendOrder(pair.tokenA.contractAddress, pair.tokenB.contractAddress, makerAssetAmount, takerAssetAmount);
+    return createAndSendOrder(pair.tokenA.contractAddress, pair.tokenB.contractAddress, makerAssetAmount, takerAssetAmount);
   }
 
-  async function approveTokenA() {
-    const contractTokenA = getContract(`Token_${pair.tokenA.symbol}`);
-    const tx = await contractTokenA.approve(getContractAddress('OrderbookERC20Proxy'), ethers.constants.MaxInt256);
-    const result = await tx.wait(1);
-    isApprovedTokenA.value = true;
+  async function marketSellWithInputAmount(orderType, amount) {
+    let signer;
+    if (web3Store.account) {
+      signer = web3Store.provider.getSigner();
+    } else {
+      throw new Error('NO_ACCOUNT');
+    }
+
+    let result = null;
+    const loadingContext = createLoadingContext('Best orders are being selected...');
+    try {
+      const response = await fetch(`${config.API_URL}/orderbook/selectOrdersForFill`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          takerAddress: await signer.getAddress(),
+          orderType,
+          pairId: pair.id,
+          amount: ethers.utils.parseEther(amount).toString(),
+        }),
+      });
+      const selectedOrders = await response.json();
+
+      if (!selectedOrders || !selectedOrders.length) {
+        throw new Error('NO_ORDER_SELECTED');
+      }
+
+      loadingContext.setTitle('Waiting for confirmation...');
+      loadingContext.setDescription('Please confirm the market action on your wallet.');
+
+      const contractExchange = getContract('OrderbookExchange');
+      if (selectedOrders.length === 1) {
+        result = await handleTransaction(
+          contractExchange.fillOrder(selectedOrders[0], amount, selectedOrders[0].signature),
+          loadingContext,
+        );
+      }
+      if (selectedOrders.length > 1) {
+        result = await handleTransaction(
+          contractExchange.marketSellOrdersNoThrow(selectedOrders, amount, selectedOrders.map((o) => o.signature)),
+          loadingContext,
+        );
+      }
+    } catch (e) {
+      debugger;
+      console.log({ e });
+      DialogService.error('Market action failed.');
+    } finally {
+      loadingContext.destroy();
+    }
     loadData();
     return result;
   }
-  async function approveTokenB() {
-    const contractTokenB = getContract(`Token_${pair.tokenB.symbol}`);
-    const tx = await contractTokenB.approve(getContractAddress('OrderbookERC20Proxy'), ethers.constants.MaxInt256);
-    const result = await tx.wait(1);
-    isApprovedTokenB.value = true;
+
+  async function approveToken(tokenSymbol) {
+    let result = null;
+    const loadingContext = createLoadingContext('Waiting for confirmation...', `Please confirm that you give permission to Ecolarium for using ${tokenSymbol} token.`);
+    try {
+      const contractToken = getContract(`Token_${tokenSymbol}`);
+      result = await handleTransaction(
+        contractToken.approve(getContractAddress('OrderbookERC20Proxy'), ethers.constants.MaxInt256),
+        loadingContext,
+      );
+    } catch (e) {
+      console.error(e);
+      DialogService.error('Approve failed. Please try again later.');
+    } finally {
+      loadingContext.destroy();
+    }
     loadData();
+    return result;
+  }
+  async function approveTokenA() {
+    const result = await approveToken(pair.tokenA.symbol);
+    if (result) {
+      isApprovedTokenA.value = true;
+    }
+    return result;
+  }
+  async function approveTokenB() {
+    const result = await approveToken(pair.tokenB.symbol);
+    if (result) {
+      isApprovedTokenB.value = true;
+    }
     return result;
   }
 
@@ -223,6 +258,7 @@ export default function useTradeService(pair) {
     balanceTokenB,
     createBuyOrder,
     createSellOrder,
+    marketSellWithInputAmount,
     approveTokenA,
     approveTokenB,
     currentPrice,

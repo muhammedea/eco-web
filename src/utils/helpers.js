@@ -10,7 +10,6 @@ export function formatAmount(input, decimals = 2) {
 }
 
 export function formatDolar(input, decimals = 2) {
-  console.log('formatDolar', input);
   let val = input;
   if (ethers.BigNumber.isBigNumber(input)) {
     val = ethers.utils.formatEther(input);
@@ -82,4 +81,17 @@ export function getPercentage(partialValue, totalValue) {
     return 0;
   }
   return (partialValue * 100) / totalValue;
+}
+
+export async function handleTransaction(txData, loadingContext) {
+  const tx = await txData;
+  loadingContext.setTitle('Transaction Pending...');
+  loadingContext.setDescription('Transaction has been submitted. Waiting for blockchain confirmation.');
+  const result = await tx.wait(1);
+  return result;
+}
+
+export async function handleExcepton(error) {
+  console.log({ error });
+  return false;
 }

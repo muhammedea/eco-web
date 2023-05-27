@@ -96,6 +96,7 @@ import useTradeService from '@/services/tradeService';
 // eslint-disable-next-line
 import { onClickOutside } from '@vueuse/core';
 import { useYartuModal } from '@yartu/ui-kit';
+import config from '@/config';
 import ChangeToken from './ChangeToken.vue';
 import AddToMetamaskModal from './AddToMetamaskModal.vue';
 
@@ -121,7 +122,7 @@ const changeTokenToggler = ref();
 
 function fetchData() {
   fetch(
-    `/api/orderbook/v1/stats?${new URLSearchParams({
+    `${config.API_URL}/orderbook/v1/stats?${new URLSearchParams({
       baseToken: props.pair.tokenA.contractAddress,
       quoteToken: props.pair.tokenA.contractAddress,
     })}`,

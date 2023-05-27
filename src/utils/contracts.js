@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 const contracts = {
   97: {
     OrderbookExchange: {
-      address: '0x22c041aB5D03e0bAb56b5c92a9C39e732AF3B412',
+      address: '0x33fe3dF9E881d1Ee60950b3C411DFC32349F9833',
       abiName: 'OrderbookExchange',
     },
     OrderbookERC20Proxy: {
@@ -15,11 +15,19 @@ const contracts = {
 
     // ---------- Tokens ----------
     Token_ECO: {
-      address: '0x535bc2B3654Fd04e545b57f58B847d89626a1568',
+      address: '0xe038b786b005e5ADB06Bdcce3D4F893b645D675B',
       abiName: 'ERC20',
     },
     Token_USDT: {
       address: '0xd2aD7d10B96A811D97E8A85ad4270b4E4BcE4F79',
+      abiName: 'ERC20',
+    },
+    Token_ECO_EFLTN: {
+      address: '0x9659B883C8DE877f13d6b5a7e55b24D4F494E06E',
+      abiName: 'ERC20',
+    },
+    Token_ECO_AKD: {
+      address: '0x973C176624cD4d8BE70dac40C5e800d4bA1F7d5e',
       abiName: 'ERC20',
     },
     Token_ECO_ORNG_1: {
@@ -32,6 +40,14 @@ const contracts = {
     },
 
     // ---------- Stake Contracts ----------
+    Stake_ECO_EFLTN: {
+      address: '0xe23eAbd49e87B0c1D525a5B4eC3f249588a5EB6e',
+      abiName: 'LockedStakingPositions',
+    },
+    Stake_ECO_AKD: {
+      address: '0xFC19Df957A2e6b3b5287506cc3b3754980588599',
+      abiName: 'LockedStakingPositions',
+    },
     Stake_ECO_ORNG_1: {
       address: '0x085235170145a47795c0ed8cC85Df89B678d6Dd3',
       abiName: 'LockedStakingPositions',

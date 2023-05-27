@@ -18,6 +18,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import useWeb3Store from '@/store/web3';
+import config from '@/config';
 import TradeHistoryCard from '../basecomponents/TradeHistoryCard.vue';
 
 const props = defineProps({
@@ -34,7 +35,7 @@ function fetchData() {
   console.log('ttttttttttttttttt');
   if (web3Store.account) {
     console.log(props.pair);
-    fetch(`/api/orderbook/orders?${new URLSearchParams({
+    fetch(`${config.API_URL}/orderbook/orders?${new URLSearchParams({
       pairId: props.pair.id,
       maker: web3Store.account,
       statuses: '4,5,6',

@@ -31,6 +31,7 @@
 import { ref } from 'vue';
 import { ethers } from 'ethers';
 import { formatTime, formatAmount } from '@/utils/helpers';
+import config from '@/config';
 
 const props = defineProps({
   pair: {
@@ -43,7 +44,7 @@ const processedOrders = ref([]);
 
 function fetchData() {
   fetch(
-    `/api/orderbook/v1/recent_trades?${new URLSearchParams({
+    `${config.API_URL}/orderbook/v1/recent_trades?${new URLSearchParams({
       baseToken: props.pair.tokenA.contractAddress,
       quoteToken: props.pair.tokenA.contractAddress,
     })}`,

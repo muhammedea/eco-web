@@ -40,6 +40,7 @@
 import { ref, computed } from 'vue';
 import { getPercentage, formatDolar } from '@/utils/helpers';
 import useTradeService from '@/services/tradeService';
+import config from '@/config';
 import OrderCard from '../basecomponents/OrderBookCard.vue';
 
 const props = defineProps({
@@ -84,7 +85,7 @@ const maxTotalAmount = computed(() => {
 });
 
 function fetchData() {
-  fetch(`/api/orderbook/summary?${new URLSearchParams({
+  fetch(`${config.API_URL}/orderbook/summary?${new URLSearchParams({
     pairId: props.pair.id,
   })}`)
     .then((response) => response.json())
@@ -92,7 +93,8 @@ function fetchData() {
       console.log(responseJson);
       buyOrders.value = responseJson.buyOrders.sort(sorter);
       sellOrders.value = responseJson.sellOrders.sort(sorter);
-      tradeService.currentPrice.value = formatDolar(parseFloat(responseJson.price).toString(), 6);
+      const price = (parseFloat(responseJson.maxBuyPrice) + parseFloat(responseJson.minSellPrice)) / 2;
+      tradeService.currentPrice.value = formatDolar(price.toString(), 6);
     });
 }
 fetchData();
